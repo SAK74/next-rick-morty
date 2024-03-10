@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { EpisodeName } from "./Episode";
-import { Search } from "@/app/(home)/page";
+import { Search } from "@/app/(home)/@summary/[[...id]]/page";
 import { Loading } from "../Loading";
 
 export const SearchList: FC<Search> = async ({ searchParams }) => {

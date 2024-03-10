@@ -1,4 +1,4 @@
-import { Search } from "@/app/(home)/page";
+import { Search } from "@/app/(home)/@summary/[[...id]]/page";
 import { Character } from "@/types";
 import { FC } from "react";
 import { Input } from "../ui/input";
