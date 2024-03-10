@@ -5,16 +5,23 @@ export const GET = async (
   { params: { path } }: { params: { path: string[] } }
 ) => {
   const url = new URL(request.url);
-  console.log({ host: url.host });
 
   console.log({ url, path });
 
-  const resp = fetch(process.env.API_URL + url.pathname + url.search, {});
+  const resp = await fetch(process.env.API_URL + url.pathname + url.search, {});
+  // console.log({ resp: resp.statusText });
 
-  const json = await (await resp).json();
+  const json = await resp.json();
   console.log({ json });
+  if (!resp.ok) {
+    let message: string;
+    if (json) {
+      message = json.error;
+    } else {
+      message = resp.statusText;
+    }
+    return NextResponse.json(message, { status: resp.status });
+  }
 
   return NextResponse.json(json);
 };
-
-// export const dynamic=''
