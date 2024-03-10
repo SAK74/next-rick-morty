@@ -1,17 +1,14 @@
-import { CharacterResponse } from "@/types";
-// import { headers } from "next/headers";
+import { Character, GeneralResponse } from "@/types";
 
 const host = process.env.HOST || "http://localhost:3000";
-const url = new URL("api", host);
-const apiURL = process.env.API_URL;
+const url = new URL("api/character", host);
 export const getAllCharacters = async (query?: string) => {
-  // const _headers = headers();
-  // console.log({ _headers });
-
-  // const resp = await fetch(apiURL + "/character", );
   url.search = query || "";
-  const resp = await fetch(url, { cache: "default" });
-  const result = (await resp.json()) as CharacterResponse;
-  // console.log({ result: result.results });
+  const resp = await fetch(url, {
+    // cache: "no-cache",
+    next: { revalidate: 1800 },
+  });
+  const result = (await resp.json()) as GeneralResponse<Character>;
+  // console.log({ result });
   return result.results;
 };

@@ -16,10 +16,20 @@ export type Character = {
   created: string; //	Time at which the character was created in the database.
 };
 
-export type CharacterResponse = {
+export type Episode = {
+  id: number; //	The id of the episode.
+  name: string; //	The name of the episode.
+  air_date: string; //	The air date of the episode.
+  episode: string; //	The code of the episode.
+  characters: string[]; // (urls)	List of characters who have been seen in the episode.
+  url: string; // (url)	Link to the episode's own endpoint.
+  created: string; //	Time at which the episode was created in the database.
+};
+
+export type GeneralResponse<T extends Character | Episode> = {
   count: number; //	The length of the response
   pages: number; //	The amount of pages
   next: string; // (url)	Link to the next page (if it exists)
   prev: string; // (url)	Link to the previous page (if it exists)
-  results: Character[];
+  results: T[];
 };
