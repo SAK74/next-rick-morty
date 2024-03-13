@@ -5,7 +5,10 @@ export type Character = {
   species: string; //	The species of the character.
   type: string; //	The type or subspecies of the character.
   gender: string; //	The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
-  origin: object; //	Name and link to the character's origin location.
+  origin: {
+    name: string;
+    url: string;
+  }; //	Name and link to the character's origin location.
   location: {
     name: string;
     url: string;

@@ -15,7 +15,7 @@ export const getAllCharacters = async (query?: string) => {
     if (resp.status === 200) {
       return (result as GeneralResponse<Character>).results;
     }
-    return result;
+    return result as string;
   } catch (err) {
     console.log({ err });
     return (err as Error).message;
