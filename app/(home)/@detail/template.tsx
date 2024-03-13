@@ -9,6 +9,6 @@ export default function TemplateHome({
 }) {
   const pathName = usePathname();
   return pathName === "/" ? null : (
-    <div className="animate-slide-up">{children}</div>
+    <div className="animate-slide-up px-6">{children}</div>
   );
 }
