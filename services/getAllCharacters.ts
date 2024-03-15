@@ -1,4 +1,4 @@
-import { Character, GeneralResponse } from "@/types";
+import { Character, DataResponse } from "@/types";
 
 const host = process.env.HOST || "http://localhost:3000";
 const url = new URL("api/character", host);
@@ -13,7 +13,7 @@ export const getAllCharacters = async (query?: string) => {
     const result = await resp.json();
     // console.log({ result });
     if (resp.status === 200) {
-      return (result as GeneralResponse<Character>).results;
+      return result as DataResponse<Character>;
     }
     return result as string;
   } catch (err) {

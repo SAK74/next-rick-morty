@@ -29,10 +29,16 @@ export type Episode = {
   created: string; //	Time at which the episode was created in the database.
 };
 
-export type GeneralResponse<T extends Character | Episode> = {
-  count: number; //	The length of the response
-  pages: number; //	The amount of pages
-  next: string; // (url)	Link to the next page (if it exists)
-  prev: string; // (url)	Link to the previous page (if it exists)
+export type GeneralResponse = {
+  info: {
+    count: number; //	The length of the response
+    pages: number; //	The amount of pages
+    next: string | null; // (url)	Link to the next page (if it exists)
+    prev: string | null; // (url)	Link to the previous page (if it exists)
+  };
+  // results: T[];
+};
+
+export type DataResponse<T extends Character | Episode> = GeneralResponse & {
   results: T[];
 };
