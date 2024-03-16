@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback, useMemo } from "react";
+import { FC, useMemo } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -20,16 +20,9 @@ export const ListPagination: FC<{ info: GeneralResponse["info"] }> = ({
   const searchParams = useSearchParams();
   const pathName = usePathname();
 
-  // const search = new URLSearchParams(searchParams);
-  const search = useMemo(
-    () => new URLSearchParams(searchParams),
-    [searchParams]
-  );
+  const search = new URLSearchParams(searchParams);
 
-  const currentPage = useMemo(() => {
-    const page = search.get("page");
-    return page ?? "1";
-  }, [search]);
+  const currentPage = search.get("page") ?? "1";
 
   const prevPage = useMemo(
     () => (prev ? new URL(prev).searchParams.get("page") : null),
@@ -41,17 +34,14 @@ export const ListPagination: FC<{ info: GeneralResponse["info"] }> = ({
     [next]
   );
 
-  const pageClick = useCallback(
-    (page: string | null) => {
-      if (!page) {
-        return;
-      }
-      search.set("page", page);
-      router.replace(pathName + `?${search.toString()}`, { scroll: false });
-      router.refresh();
-    },
-    [search, pathName, router]
-  );
+  const pageClick = (page: string | null) => {
+    if (!page) {
+      return;
+    }
+    search.set("page", page);
+    router.replace(pathName + `?${search.toString()}`, { scroll: false });
+    router.refresh();
+  };
 
   return (
     <Pagination>
