@@ -1,10 +1,8 @@
-import { Search } from "@/app/(home)/@summary/[[...id]]/page";
 import { Character } from "@/types";
 import { FC } from "react";
 import { Input } from "../ui/input";
-import { Select, SelectTrigger } from "../ui/select";
-import { SelectValue } from "@radix-ui/react-select";
 import { SelectComponent } from "./SelectComponent";
+import { Search } from "@/app/(home)/layout";
 
 export const SearchComponent: FC<Search> = ({
   searchParams: { name, status },
