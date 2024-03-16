@@ -10,7 +10,7 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
     new URLSearchParams(searchParams).toString()
   );
   return (
-    <section className="flex flex-col gap-4 items-center">
+    <>
       {typeof data === "string" ? (
         <div className="text-rose-800">{data}</div>
       ) : (
@@ -18,7 +18,10 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
           <div>{data.info.count} results was founded</div>
           <div className="flex flex-wrap gap-4 justify-around">
             {data.results.map((character) => (
-              <Link key={character.id} href={`/${character.id}`}>
+              <Link
+                key={character.id}
+                href={`/${character.id}?${new URLSearchParams(searchParams)}`}
+              >
                 <CharacterCard character={character} />
               </Link>
             ))}
@@ -26,6 +29,6 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
           {data.info.pages > 1 && <ListPagination info={data.info} />}
         </>
       )}
-    </section>
+    </>
   );
 };
