@@ -28,20 +28,21 @@ export const NavMenu = () => {
     >
       <NavigationMenuList>
         {routes.map((route) => {
-          // const href = route === "home" ? "/" : route;
           const isActive = pathName === route.href;
           return (
-            <NextLink key={route.name} href={route.href} className="capitalize">
-              {route.name}
-            </NextLink>
-
-            // <NavigationMenuItem key={route.name}>
-            //   <NavigationMenuLink
-            //     className={cn(navigationMenuTriggerStyle(), "capitalize")}
-            //   >
-            //     <NextLink href={route.href}>{route.name}</NextLink>
-            //   </NavigationMenuLink>
-            // </NavigationMenuItem>
+            <NavigationMenuItem key={route.name}>
+              <NavigationMenuLink
+                asChild
+                className={cn(navigationMenuTriggerStyle(), "capitalize")}
+              >
+                <NextLink
+                  className={cn({ "bg-transparent": !isActive })}
+                  href={route.href}
+                >
+                  {route.name}
+                </NextLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
           );
         })}
       </NavigationMenuList>
