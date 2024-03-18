@@ -1,8 +1,12 @@
 import { Character, DataResponse } from "@/types";
+import path from "path";
 
 const host = process.env.HOST || "http://localhost:3000";
 const url = new URL("api/character", host);
+
+const testURL = path.resolve(__dirname, "../");
 export const getAllCharacters = async (query?: string) => {
+  console.log({ testURL });
   try {
     url.search = query || "";
     const resp = await fetch(url, {
