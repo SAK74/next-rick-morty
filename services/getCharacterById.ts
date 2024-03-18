@@ -1,6 +1,5 @@
 import { Character } from "@/types";
-
-const host = process.env.HOST || "http://localhost:3000";
+import { host } from "./getAllCharacters";
 
 export const getCharacterById = async (id: string) => {
   try {

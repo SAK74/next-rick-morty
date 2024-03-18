@@ -1,19 +1,20 @@
 import { Character, DataResponse } from "@/types";
-import path from "path";
 
-const host = process.env.HOST || "http://localhost:3000";
+export const host =
+  process.env.NODE_ENV === "development"
+    ? process.env.HOST || "http://localhost:3000"
+    : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+
 const url = new URL("api/character", host);
 
-const testURL = path.resolve(__dirname, "../");
 export const getAllCharacters = async (query?: string) => {
-  console.log({ testURL });
+  // console.log({ url });
   try {
     url.search = query || "";
     const resp = await fetch(url, {
       // cache: "no-cache",
       next: { revalidate: 1800 },
     });
-    // console.log({ resp });
     const result = await resp.json();
     // console.log({ result });
     if (resp.status === 200) {
