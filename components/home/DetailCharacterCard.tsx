@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Character } from "@/types";
+import Image from "next/image";
 
 import { FC } from "react";
 
@@ -14,6 +15,7 @@ export const DetailCharacterCard: FC<{ character: Character }> = ({
     gender,
     origin: { name: origin },
     location: { name: last_location },
+    image,
   } = character;
   const created = new Date(character.created).toLocaleDateString("en-UK", {
     day: "numeric",
@@ -21,9 +23,16 @@ export const DetailCharacterCard: FC<{ character: Character }> = ({
     year: "numeric",
   });
   return (
-    <Card className="w-[400px]">
-      <CardHeader className="text-center gap-4">
+    <Card className="w-[340px] lg:w-[400px]">
+      <CardHeader className="text-center gap-4 flex-row justify-between items-center">
         <CardTitle className="">{name}</CardTitle>
+        <Image
+          src={image}
+          alt={name + "image"}
+          width={80}
+          height={80}
+          className="rounded-xl"
+        />
       </CardHeader>
       <CardContent>
         <ul className="list-image-[radial-gradient(lightblue,blue)] list-inside space-y-4">

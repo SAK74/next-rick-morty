@@ -8,13 +8,13 @@ import { cn } from "@/lib/utils";
 
 export const CharacterCard: FC<{ character: Character }> = ({ character }) => {
   return (
-    <div key={character.id} className="flex w-[500px] h-[250px]">
+    <div key={character.id} className="flex w-[350px] lg:w-[500px] h-[250px]">
       <Image
         src={character.image}
         alt={character.name + "image"}
         width={200}
         height={250}
-        className="h-full rounded-l-lg"
+        className="h-full rounded-l-lg md:max-lg:hidden"
       />
 
       <Card className="rounded-l-none bg-slate-100 flex-grow flex flex-col">
