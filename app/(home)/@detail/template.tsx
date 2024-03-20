@@ -11,6 +11,7 @@ export default function TemplateHome({
   return pathName === "/" ? null : (
     <div className="animate-slide-up px-6 flex flex-col gap-4">
       <div className="h-6"></div>
+      <div className="h-10"></div>
       {children}
     </div>
   );

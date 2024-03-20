@@ -15,7 +15,11 @@ export const DetailCharacterCard: FC<{ character: Character }> = ({
     origin: { name: origin },
     location: { name: last_location },
   } = character;
-  const created = new Date(character.created).toLocaleDateString();
+  const created = new Date(character.created).toLocaleDateString("en-UK", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
   return (
     <Card className="w-[400px]">
       <CardHeader className="text-center gap-4">
