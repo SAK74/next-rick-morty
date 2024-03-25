@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "@/ui/fonts";
-import {
-  NavigationMenu,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
-import { NavigationMenuItem } from "@radix-ui/react-navigation-menu";
+
 import { NavMenu } from "@/components/NavMenu";
 
 export const metadata: Metadata = {
   title: "R&M",
   description: "Learning app",
+  icons: "/icons8-rick-sanchez-16.png",
 };
 
 export default function RootLayout({
