@@ -13,6 +13,8 @@ datasource db {
   url      = env("POSTGRES_PRISMA_URL")
 }
 
-model Hero {
-  id String @id
+model Favorite {
+  id Int @id
+
+  @@map("favorites")
 }

@@ -19,12 +19,19 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
           {data.info.pages > 1 && <ListPagination info={data.info} />}
           <div className="flex flex-wrap gap-4 justify-around">
             {data.results.map((character) => (
-              <Link
+              <CharacterCard
                 key={character.id}
-                href={`/${character.id}?${new URLSearchParams(searchParams)}`}
-              >
-                <CharacterCard character={character} />
-              </Link>
+                character={character}
+                link={
+                  <Link
+                    href={`/${character.id}?${new URLSearchParams(
+                      searchParams
+                    )}`}
+                  >
+                    View detail
+                  </Link>
+                }
+              ></CharacterCard>
             ))}
           </div>
           {data.info.pages > 1 && <ListPagination info={data.info} />}
