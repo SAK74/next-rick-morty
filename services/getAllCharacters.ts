@@ -13,7 +13,7 @@ export const getAllCharacters = async (query?: string) => {
     url.search = query || "";
     const resp = await fetch(url, {
       // cache: "no-cache",
-      next: { revalidate: 1800 },
+      // next: { revalidate: 1800 },
     });
     const result = await resp.json();
     // console.log({ result });

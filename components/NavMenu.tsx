@@ -16,6 +16,7 @@ const routes = [
     name: "home",
     href: "/",
   },
+  { name: "favorites", href: "/favorites" },
   { name: "example", href: "/example" },
 ];
 
@@ -23,7 +24,7 @@ export const NavMenu = () => {
   const pathName = usePathname();
   return (
     <NavigationMenu
-      className="bg-sky-400 p-4 w-full max-w-none justify-start
+      className="bg-sky-400/60 p-4 w-full max-w-none justify-start sticky top-0 backdrop-blur-md shadow-md
     "
     >
       <NavigationMenuList>
