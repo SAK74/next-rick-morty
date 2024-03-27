@@ -14,6 +14,8 @@ export type FavResponseType =
 
 export async function GET(request: NextRequest, { params }: any) {
   console.log("RequestURL: ", request.url);
+  console.log("DB fetched");
+  console.log("----------------------");
   try {
     const result = await db.favorite.findMany();
     return NextResponse.json({ message: "OK", result }, { status: 200 });

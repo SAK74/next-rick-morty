@@ -7,11 +7,13 @@ import { EpisodeName } from "./Episode";
 import { cn } from "@/lib/utils";
 import { AddToFav } from "./AddToFav";
 import { db } from "@/lib/db";
+import { RemoveFromFav } from "../favorites/RemoveFromFav";
 
 export const CharacterCard: FC<{
   character: Character;
   link: ReactNode;
-}> = async ({ character, link }) => {
+  isFavoritePage?: boolean;
+}> = async ({ character, link, isFavoritePage = false }) => {
   const isFavorite = await db.favorite.findUnique({
     where: { id: character.id },
   });
@@ -30,7 +32,11 @@ export const CharacterCard: FC<{
         <CardHeader>
           <CardTitle className="flex justify-between">
             {character.name}
-            <AddToFav isFavorite={!!isFavorite} id={character.id} />
+            {!isFavoritePage ? (
+              <AddToFav isFavorite={!!isFavorite} id={character.id} />
+            ) : (
+              <RemoveFromFav id={character.id} />
+            )}
           </CardTitle>
           <div className="flex gap-2 items-center">
             <span

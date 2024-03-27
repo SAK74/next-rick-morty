@@ -6,13 +6,15 @@ export const GET = async (
 ) => {
   const url = new URL(request.url);
 
-  console.log({ url, path });
+  console.log({ url: url.href, path });
   // return NextResponse.json({ test: "ok!" });
 
   const resp = await fetch(process.env.API_URL + url.pathname + url.search, {});
 
   const json = await resp.json();
-  console.log({ json });
+  // console.log({ json });
+  console.log("API has fetched");
+  console.log("----------------------");
   if (!resp.ok) {
     let message: string;
     if (json) {
