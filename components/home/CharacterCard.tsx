@@ -1,12 +1,23 @@
 import { Character } from "@/types";
-import { FC, Suspense } from "react";
+import { FC, ReactNode, Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { Loading } from "../Loading";
 import { EpisodeName } from "./Episode";
 import { cn } from "@/lib/utils";
+import { AddToFav } from "./AddToFav";
+import { db } from "@/lib/db";
+import { RemoveFromFav } from "../favorites/RemoveFromFav";
 
-export const CharacterCard: FC<{ character: Character }> = ({ character }) => {
+export const CharacterCard: FC<{
+  character: Character;
+  link: ReactNode;
+  isFavoritePage?: boolean;
+}> = async ({ character, link, isFavoritePage = false }) => {
+  const isFavorite = await db.favorite.findUnique({
+    where: { id: character.id },
+  });
+
   return (
     <div key={character.id} className="flex w-[350px] lg:w-[500px] h-[250px]">
       <Image
@@ -19,7 +30,14 @@ export const CharacterCard: FC<{ character: Character }> = ({ character }) => {
 
       <Card className="rounded-l-none bg-slate-100 flex-grow flex flex-col">
         <CardHeader>
-          <CardTitle>{character.name}</CardTitle>
+          <CardTitle className="flex justify-between">
+            {character.name}
+            {!isFavoritePage ? (
+              <AddToFav isFavorite={!!isFavorite} id={character.id} />
+            ) : (
+              <RemoveFromFav id={character.id} />
+            )}
+          </CardTitle>
           <div className="flex gap-2 items-center">
             <span
               className={cn(
@@ -36,7 +54,7 @@ export const CharacterCard: FC<{ character: Character }> = ({ character }) => {
             <span>{character.species}</span>
           </div>
         </CardHeader>
-        <CardContent className="flex flex-col justify-between flex-grow">
+        <CardContent className="flex flex-col justify-between flex-grow pb-0">
           <div>
             <div className="text-gray-400">Last know location: </div>
             <p>{character.location.name}</p>
@@ -48,6 +66,9 @@ export const CharacterCard: FC<{ character: Character }> = ({ character }) => {
             </Suspense>
           </div>
         </CardContent>
+        <div className="self-end mr-4 text-blue-400 hover:scale-105 hover:text-blue-500">
+          {link}
+        </div>
       </Card>
     </div>
   );
