@@ -24,7 +24,7 @@ export const NavMenu = () => {
   const pathName = usePathname();
   return (
     <NavigationMenu
-      className="bg-sky-400/60 p-4 w-full max-w-none justify-start sticky top-0 backdrop-blur-md shadow-md
+      className="bg-sky-400/60 p-4 w-full max-w-none justify-start sticky top-0 backdrop-blur-sm shadow-md
     "
     >
       <NavigationMenuList>
