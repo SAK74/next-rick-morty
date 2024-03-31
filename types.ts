@@ -46,4 +46,14 @@ export type DataResponse<T extends Character | Episode> = GeneralResponse & {
   results: T[];
 };
 
+export type FavResponseType<T> =
+  | {
+      message: "OK";
+      result: T[];
+    }
+  | {
+      message: "Error";
+      error: unknown;
+    };
+
 export type CustomFav = z.infer<typeof customFavoriteSchema>;

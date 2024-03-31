@@ -1,6 +1,7 @@
 import { CharacterCard } from "@/components/home/CharacterCard";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
+import { getAllCustomFav } from "@/services/getAllCustomFav";
 import { getAllFavorites } from "@/services/getAllFavorites";
 import { GetMultipleCharacters } from "@/services/getMultipleCharacters";
 import Image from "next/image";
@@ -9,8 +10,8 @@ import Link from "next/link";
 export default async function FavoritePage({ params }: { params: {} }) {
   // console.log("Params in favorites: ", params);
 
-  const customFav = await db.custom.findMany();
-  console.log({ customFav });
+  const customFav = await getAllCustomFav();
+  // console.log({ customFav });
 
   const favorites = await getAllFavorites();
   if (!favorites) {
@@ -27,9 +28,10 @@ export default async function FavoritePage({ params }: { params: {} }) {
       <Button className="bg-sky-600 self-end">
         <Link href={"/favorites/create"}>Create custom</Link>
       </Button>
-      {customFav.map((fav) => (
-        <Image src={fav.image} alt="" width={200} height={150} />
-      ))}
+      {customFav &&
+        customFav.map((fav) => (
+          <Image src={fav.image} alt="" width={200} height={150} />
+        ))}
       <div className="flex flex-wrap gap-4 justify-around">
         {renderedHero.map((character) => (
           <CharacterCard

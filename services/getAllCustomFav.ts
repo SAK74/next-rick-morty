@@ -1,18 +1,18 @@
-import { FavResponseType } from "@/types";
+// import { FavResponseType } from "@/app/db/favorites/route";
+import { CustomFav, FavResponseType } from "@/types";
 import { host } from "./getAllCharacters";
-import { Favorite } from "@prisma/client";
 
-const favoritesURL = new URL("/db/favorites", host);
+const favoritesURL = new URL("/db/custom", host);
 
-export const getAllFavorites = async () => {
+export const getAllCustomFav = async () => {
   try {
     const resp = await fetch(favoritesURL, {
       next: {
         // revalidate: 600,
-        tags: ["favorites"],
+        tags: ["custom"],
       },
     });
-    const result = (await resp.json()) as FavResponseType<Favorite>;
+    const result = (await resp.json()) as FavResponseType<CustomFav>;
     if (result.message === "OK") {
       return result.result;
     }
