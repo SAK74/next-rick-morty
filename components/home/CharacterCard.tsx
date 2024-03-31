@@ -9,6 +9,7 @@ import { AddToFav } from "./AddToFav";
 import { db } from "@/lib/db";
 import { RemoveFromFav } from "../favorites/RemoveFromFav";
 import { DeleteCustom } from "../favorites/DeleteCustom";
+import unknownHeroIcon from "@/assets/unknown.png";
 
 export const CharacterCard: FC<{
   character: Character;
@@ -25,7 +26,7 @@ export const CharacterCard: FC<{
   return (
     <div key={character.id} className="flex w-[350px] lg:w-[500px] h-[275px]">
       <Image
-        src={character.image}
+        src={character.image || unknownHeroIcon}
         alt={character.name + "image"}
         width={200}
         height={250}
