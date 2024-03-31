@@ -1,6 +1,11 @@
 import { CreateFavForm } from "@/components/favorites/CreateFavForm";
-import { CreateModal } from "@/components/CreateModal";
+// import { CreateModal } from "@/components/CreateModal";
 import { Card } from "@/components/ui/card";
+import dynamic from "next/dynamic";
+
+const CreateModal = dynamic(() => import("@/components/CreateModal"), {
+  ssr: false,
+});
 
 export default function CreateFavorite() {
   return (
