@@ -4,9 +4,7 @@ import { SelectProps } from "@radix-ui/react-select";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
@@ -16,18 +14,15 @@ export const SelectComponent: FC<
   PropsWithChildren & SelectProps & { values: string[] }
 > = ({ values, defaultValue }) => (
   <Select name="status" defaultValue={defaultValue}>
-    <SelectTrigger className="">
+    <SelectTrigger>
       <SelectValue placeholder="Select hero status" />
     </SelectTrigger>
     <SelectContent>
-      <SelectGroup>
-        <SelectLabel>Status</SelectLabel>
-        {values.map((value) => (
-          <SelectItem key={value} value={value}>
-            {value}
-          </SelectItem>
-        ))}
-      </SelectGroup>
+      {values.map((value) => (
+        <SelectItem key={value} value={value}>
+          {value}
+        </SelectItem>
+      ))}
     </SelectContent>
   </Select>
 );

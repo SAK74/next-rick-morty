@@ -7,16 +7,8 @@ import { FC } from "react";
 export const DetailCharacterCard: FC<{ character: Character }> = ({
   character,
 }) => {
-  const {
-    name,
-    status,
-    species,
-    type,
-    gender,
-    origin: { name: origin },
-    location: { name: last_location },
-    image,
-  } = character;
+  const { name, status, species, type, gender, origin, location, image } =
+    character;
   const created = new Date(character.created).toLocaleDateString("en-UK", {
     day: "numeric",
     month: "short",
@@ -40,8 +32,8 @@ export const DetailCharacterCard: FC<{ character: Character }> = ({
             species,
             status,
             gender,
-            origin,
-            last_location,
+            origin: origin?.name,
+            last_location: location?.name,
             type,
             created,
           }).map(([prop, val]) => (

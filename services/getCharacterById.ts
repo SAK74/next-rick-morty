@@ -11,7 +11,7 @@ export const getCharacterById = async (id: string) => {
     if (resp.status === 200) {
       return result as Character;
     } else {
-      console.log({ result });
+      // console.log({ result });
       // TO DO in false case
       return "Error";
     }

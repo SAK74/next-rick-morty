@@ -8,18 +8,22 @@ import { cn } from "@/lib/utils";
 import { AddToFav } from "./AddToFav";
 import { db } from "@/lib/db";
 import { RemoveFromFav } from "../favorites/RemoveFromFav";
+import { DeleteCustom } from "../favorites/DeleteCustom";
 
 export const CharacterCard: FC<{
   character: Character;
   link: ReactNode;
   isFavoritePage?: boolean;
-}> = async ({ character, link, isFavoritePage = false }) => {
-  const isFavorite = await db.favorite.findUnique({
-    where: { id: character.id },
-  });
+  isCustom?: boolean;
+}> = async ({ character, link, isFavoritePage = false, isCustom }) => {
+  const isFavorite =
+    typeof character.id === "number" &&
+    (await db.favorite.findUnique({
+      where: { id: character.id },
+    }));
 
   return (
-    <div key={character.id} className="flex w-[350px] lg:w-[500px] h-[250px]">
+    <div key={character.id} className="flex w-[350px] lg:w-[500px] h-[275px]">
       <Image
         src={character.image}
         alt={character.name + "image"}
@@ -33,9 +37,11 @@ export const CharacterCard: FC<{
           <CardTitle className="flex justify-between">
             {character.name}
             {!isFavoritePage ? (
-              <AddToFav isFavorite={!!isFavorite} id={character.id} />
+              <AddToFav isFavorite={!!isFavorite} id={character.id as number} />
+            ) : !isCustom ? (
+              <RemoveFromFav id={character.id as number} />
             ) : (
-              <RemoveFromFav id={character.id} />
+              <DeleteCustom id={character.id as string} />
             )}
           </CardTitle>
           <div className="flex gap-2 items-center">
@@ -53,18 +59,24 @@ export const CharacterCard: FC<{
             <span>-</span>
             <span>{character.species}</span>
           </div>
+          <div>{character.gender}</div>
         </CardHeader>
         <CardContent className="flex flex-col justify-between flex-grow pb-0">
-          <div>
-            <div className="text-gray-400">Last know location: </div>
-            <p>{character.location.name}</p>
-          </div>
-          <div>
-            <div className="text-gray-400">First seen in:</div>
-            <Suspense fallback={<Loading />}>
-              <EpisodeName url={character.episode[0]} />
-            </Suspense>
-          </div>
+          {/* <div>{character.gender}</div> */}
+          {character.location && (
+            <div>
+              <div className="text-gray-400">Last know location: </div>
+              <p>{character.location.name}</p>
+            </div>
+          )}
+          {character.episode && (
+            <div>
+              <div className="text-gray-400">First seen in:</div>
+              <Suspense fallback={<Loading />}>
+                <EpisodeName url={character.episode[0]} />
+              </Suspense>
+            </div>
+          )}
         </CardContent>
         <div className="self-end mr-4 text-blue-400 hover:scale-105 hover:text-blue-500">
           {link}
