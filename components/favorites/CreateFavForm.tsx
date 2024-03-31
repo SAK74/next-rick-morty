@@ -26,6 +26,8 @@ import { Custom } from "@prisma/client";
 import { useState } from "react";
 import { addCustomToFav } from "@/actions/addCustomFav";
 import Image from "next/image";
+import defaultIcon from "@/assets/unknown.png";
+import { useRouter } from "next/navigation";
 
 export const CreateFavForm = () => {
   const form = useForm<CustomFav>({
@@ -33,11 +35,15 @@ export const CreateFavForm = () => {
     defaultValues: { name: "", species: "", image: "" },
   });
 
+  const router = useRouter();
+
   const [dataUrl, setDataUrl] = useState("");
 
   const onValid: SubmitHandler<CustomFav> = async (data) => {
     // console.log({ data });
     await addCustomToFav({ ...data, image: dataUrl });
+    router.replace("/favorites");
+    router.refresh();
     // console.log("Success!");
   };
   return (
@@ -103,22 +109,22 @@ export const CreateFavForm = () => {
                           const fr = new FileReader();
                           fr.addEventListener("load", ({ target }) => {
                             const result = target?.result;
-                            console.log("Reader: ", target?.result);
+                            // console.log("Reader: ", target?.result);
                             setDataUrl(result ? (result as string) : "");
                           });
                           fr.readAsDataURL(file);
+                        } else {
+                          setDataUrl("");
                         }
                       }}
                     />
-                    {dataUrl && (
-                      <Image
-                        src={dataUrl}
-                        alt="uploading image"
-                        width={150}
-                        height={200}
-                        className="rounded-2xl"
-                      />
-                    )}
+                    <Image
+                      src={dataUrl || defaultIcon}
+                      alt="uploading image"
+                      width={150}
+                      height={200}
+                      className="rounded-2xl"
+                    />
                   </>
                 </FormControl>
                 <FormMessage />
