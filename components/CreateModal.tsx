@@ -18,28 +18,29 @@ export const CreateModal: FC<PropsWithChildren<{ tooltipText?: string }>> = ({
       dialogRef.current?.showModal();
     }
   }, []);
-
-  return createPortal(
-    <dialog
-      ref={dialogRef}
-      className="backdrop:backdrop-blur-sm px-4 pt-12 pb-3 rounded-sm shadow-xl"
-      onClose={() => {
-        router.back();
-      }}
-    >
-      {children}
-      <MyTooltip text={tooltipText}>
-        <Button
-          variant={"ghost"}
-          className="absolute top-2 right-2 cursor-pointer p-2"
-          onClick={() => {
-            dialogRef.current?.close();
-          }}
-        >
-          <XIcon color="darkblue" strokeWidth={4} />
-        </Button>
-      </MyTooltip>
-    </dialog>,
-    document.body
-  );
+  if (document) {
+    return createPortal(
+      <dialog
+        ref={dialogRef}
+        className="backdrop:backdrop-blur-sm px-4 pt-12 pb-3 rounded-sm shadow-xl"
+        onClose={() => {
+          router.back();
+        }}
+      >
+        {children}
+        <MyTooltip text={tooltipText}>
+          <Button
+            variant={"ghost"}
+            className="absolute top-2 right-2 cursor-pointer p-2"
+            onClick={() => {
+              dialogRef.current?.close();
+            }}
+          >
+            <XIcon color="darkblue" strokeWidth={4} />
+          </Button>
+        </MyTooltip>
+      </dialog>,
+      document.body
+    );
+  }
 };

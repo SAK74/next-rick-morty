@@ -25,6 +25,7 @@ import {
 import { Custom } from "@prisma/client";
 import { useState } from "react";
 import { addCustomToFav } from "@/actions/addCustomFav";
+import Image from "next/image";
 
 export const CreateFavForm = () => {
   const form = useForm<CustomFav>({
@@ -35,9 +36,9 @@ export const CreateFavForm = () => {
   const [dataUrl, setDataUrl] = useState("");
 
   const onValid: SubmitHandler<CustomFav> = async (data) => {
-    console.log({ data });
+    // console.log({ data });
     await addCustomToFav({ ...data, image: dataUrl });
-    console.log("Success!");
+    // console.log("Success!");
   };
   return (
     <Form {...form}>
@@ -110,10 +111,11 @@ export const CreateFavForm = () => {
                       }}
                     />
                     {dataUrl && (
-                      <img
+                      <Image
                         src={dataUrl}
-                        alt=""
+                        alt="uploading image"
                         width={150}
+                        height={200}
                         className="rounded-2xl"
                       />
                     )}

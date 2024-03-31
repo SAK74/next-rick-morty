@@ -2,23 +2,23 @@ import { z } from "zod";
 import { customFavoriteSchema } from "./schemas";
 
 export type Character = {
-  id: number; //	The id of the character.
+  id: number | string; //	The id of the character.
   name: string; //	The name of the character.
   status: "Alive" | "Dead" | "unknown"; //	The status of the character ('Alive', 'Dead' or 'unknown').
   species: string; //	The species of the character.
-  type: string; //	The type or subspecies of the character.
+  type?: string; //	The type or subspecies of the character.
   gender: string; //	The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
-  origin: {
+  origin?: {
     name: string;
     url: string;
   }; //	Name and link to the character's origin location.
-  location: {
+  location?: {
     name: string;
     url: string;
   }; //	Name and link to the character's last known location endpoint.
   image: string; // (url)	Link to the character's image. All images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.
-  episode: string[]; // (urls)	List of episodes in which this character appeared.
-  url: string; // (url)	Link to the character's own URL endpoint.
+  episode?: string[]; // (urls)	List of episodes in which this character appeared.
+  url?: string; // (url)	Link to the character's own URL endpoint.
   created: string; //	Time at which the character was created in the database.
 };
 
@@ -56,4 +56,7 @@ export type FavResponseType<T> =
       error: unknown;
     };
 
-export type CustomFav = z.infer<typeof customFavoriteSchema>;
+export type CustomFav = Required<z.infer<typeof customFavoriteSchema>> & {
+  created: string;
+  id: string;
+};
