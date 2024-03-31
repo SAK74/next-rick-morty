@@ -22,7 +22,7 @@ export const CreateModal: FC<PropsWithChildren<{ tooltipText?: string }>> = ({
   return createPortal(
     <dialog
       ref={dialogRef}
-      className="backdrop:backdrop-blur-sm px-4 pt-10 pb-3 rounded-sm shadow-xl"
+      className="backdrop:backdrop-blur-sm px-4 pt-12 pb-3 rounded-sm shadow-xl"
       onClose={() => {
         router.back();
       }}

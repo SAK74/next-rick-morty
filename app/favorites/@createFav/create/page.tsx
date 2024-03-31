@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 export default function CreateFavorite() {
   return (
     <CreateModal tooltipText="Close form">
-      <Card>
+      <Card className="p-2">
         <CreateFavForm />
       </Card>
     </CreateModal>

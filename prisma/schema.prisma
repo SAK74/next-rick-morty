@@ -18,3 +18,26 @@ model Favorite {
 
   @@map("favorites")
 }
+
+enum HeroStatus {
+  Alive
+  Dead
+  unknown
+}
+
+enum Gender {
+  Female
+  Male
+  Genderless
+  unknown
+}
+
+model Custom {
+  id      String     @id @default(uuid())
+  name    String
+  status  HeroStatus @default(unknown)
+  gender  Gender     @default(unknown)
+  image   String
+  species String
+  created DateTime   @updatedAt
+}

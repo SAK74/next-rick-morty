@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { customFavoriteSchema } from "./schemas";
+
 export type Character = {
   id: number; //	The id of the character.
   name: string; //	The name of the character.
@@ -42,3 +45,5 @@ export type GeneralResponse = {
 export type DataResponse<T extends Character | Episode> = GeneralResponse & {
   results: T[];
 };
+
+export type CustomFav = z.infer<typeof customFavoriteSchema>;
