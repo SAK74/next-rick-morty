@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDate } from "@/lib/utils";
 import { Character } from "@/types";
 import Image from "next/image";
 
@@ -9,11 +10,7 @@ export const DetailCharacterCard: FC<{ character: Character }> = ({
 }) => {
   const { name, status, species, type, gender, origin, location, image } =
     character;
-  const created = new Date(character.created).toLocaleDateString("en-UK", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
+  const created = formatDate(character.created);
   return (
     <Card className="w-[340px] lg:w-[400px]">
       <CardHeader className="text-center gap-4 flex-row justify-between items-center">

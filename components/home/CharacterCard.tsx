@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { Loading } from "../Loading";
 import { EpisodeName } from "./Episode";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { AddToFav } from "./AddToFav";
 import { db } from "@/lib/db";
 import { RemoveFromFav } from "../favorites/RemoveFromFav";
@@ -77,6 +77,12 @@ export const CharacterCard: FC<{
                 <EpisodeName url={character.episode[0]} />
               </Suspense>
             </div>
+          )}
+          {isCustom && (
+            <>
+              <div className="flex-grow"></div>
+              <div>Created: {formatDate(character.created)}</div>
+            </>
           )}
         </CardContent>
         <div className="self-end mr-4 text-blue-400 hover:scale-105 hover:text-blue-500">
