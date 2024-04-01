@@ -1,24 +1,42 @@
-import { Character } from "@/types";
+import { Character, CustomFav } from "@/types";
 import { FC, ReactNode, Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { Loading } from "../Loading";
 import { EpisodeName } from "./Episode";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { AddToFav } from "./AddToFav";
 import { db } from "@/lib/db";
 import { RemoveFromFav } from "../favorites/RemoveFromFav";
-import { DeleteCustom } from "../favorites/DeleteCustom";
+import { HandleCustom } from "../favorites/HandleCustom";
 import unknownHeroIcon from "@/assets/unknown.png";
 
 export const CharacterCard: FC<{
-  character: Character;
+  character: Character | CustomFav;
   link: ReactNode;
   isFavoritePage?: boolean;
   isCustom?: boolean;
-}> = async ({ character, link, isFavoritePage = false, isCustom }) => {
+}> = async (props) => {
+  const { link, isFavoritePage, isCustom } = props;
+  const character = props.character satisfies Omit<
+    Character,
+    "created" | "id"
+  > & {
+    created: string | Date;
+    id: string | number;
+  };
+
+  const isCharacter = (
+    character: Character | CustomFav
+  ): character is Character => {
+    return (
+      Boolean((character as Character).species) &&
+      Boolean((character as Character).location)
+    );
+  };
+
   const isFavorite =
-    typeof character.id === "number" &&
+    isCharacter(character) &&
     (await db.favorite.findUnique({
       where: { id: character.id },
     }));
@@ -42,7 +60,7 @@ export const CharacterCard: FC<{
             ) : !isCustom ? (
               <RemoveFromFav id={character.id as number} />
             ) : (
-              <DeleteCustom id={character.id as string} />
+              <HandleCustom id={character.id as string} />
             )}
           </CardTitle>
           <div className="flex gap-2 items-center">
@@ -64,19 +82,25 @@ export const CharacterCard: FC<{
         </CardHeader>
         <CardContent className="flex flex-col justify-between flex-grow pb-0">
           {/* <div>{character.gender}</div> */}
-          {character.location && (
+          {isCharacter(character) && (
             <div>
               <div className="text-gray-400">Last know location: </div>
-              <p>{character.location.name}</p>
+              <p>{character.location?.name}</p>
             </div>
           )}
-          {character.episode && (
+          {isCharacter(character) && character.episode && (
             <div>
               <div className="text-gray-400">First seen in:</div>
               <Suspense fallback={<Loading />}>
                 <EpisodeName url={character.episode[0]} />
               </Suspense>
             </div>
+          )}
+          {isCustom && (
+            <>
+              <div className="flex-grow"></div>
+              <div>Created: {formatDate(character.created)}</div>
+            </>
           )}
         </CardContent>
         <div className="self-end mr-4 text-blue-400 hover:scale-105 hover:text-blue-500">

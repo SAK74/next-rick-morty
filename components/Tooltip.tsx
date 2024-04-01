@@ -13,7 +13,9 @@ export const MyTooltip: FC<PropsWithChildren<{ text: string }>> = ({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipTrigger asChild className="cursor-pointer hover:scale-110">
+          {children}
+        </TooltipTrigger>
         <TooltipContent className="bg-sky-100">{text}</TooltipContent>
       </Tooltip>
     </TooltipProvider>

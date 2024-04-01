@@ -2,7 +2,7 @@ import { z } from "zod";
 import { customFavoriteSchema } from "./schemas";
 
 export type Character = {
-  id: number | string; //	The id of the character.
+  id: number; //	The id of the character.
   name: string; //	The name of the character.
   status: "Alive" | "Dead" | "unknown"; //	The status of the character ('Alive', 'Dead' or 'unknown').
   species: string; //	The species of the character.
@@ -57,6 +57,6 @@ export type FavResponseType<T> =
     };
 
 export type CustomFav = Required<z.infer<typeof customFavoriteSchema>> & {
-  created: string;
+  created: Date;
   id: string;
 };
