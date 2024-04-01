@@ -8,7 +8,7 @@ import { cn, formatDate } from "@/lib/utils";
 import { AddToFav } from "./AddToFav";
 import { db } from "@/lib/db";
 import { RemoveFromFav } from "../favorites/RemoveFromFav";
-import { DeleteCustom } from "../favorites/DeleteCustom";
+import { HandleCustom } from "../favorites/HandleCustom";
 import unknownHeroIcon from "@/assets/unknown.png";
 
 export const CharacterCard: FC<{
@@ -42,7 +42,7 @@ export const CharacterCard: FC<{
             ) : !isCustom ? (
               <RemoveFromFav id={character.id as number} />
             ) : (
-              <DeleteCustom id={character.id as string} />
+              <HandleCustom id={character.id as string} />
             )}
           </CardTitle>
           <div className="flex gap-2 items-center">

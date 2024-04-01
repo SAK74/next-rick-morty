@@ -57,6 +57,6 @@ export type FavResponseType<T> =
     };
 
 export type CustomFav = Required<z.infer<typeof customFavoriteSchema>> & {
-  created: string;
+  created: Date;
   id: string;
 };

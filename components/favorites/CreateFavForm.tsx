@@ -23,25 +23,42 @@ import {
 } from "../ui/select";
 
 import { Custom } from "@prisma/client";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { addCustomToFav } from "@/actions/addCustomFav";
 import Image from "next/image";
 import defaultIcon from "@/assets/unknown.png";
 import { useRouter } from "next/navigation";
+import { editCustom } from "@/actions/editCustom";
 
-export const CreateFavForm = () => {
+export const CreateFavForm: FC<{ hero?: CustomFav }> = ({ hero }) => {
+  const defaultValues: Partial<CustomFav> = hero
+    ? {
+        name: hero.name,
+        species: hero.species,
+        gender: hero.gender,
+        status: hero.status,
+      }
+    : {
+        name: "",
+        species: "",
+        image: "",
+      };
   const form = useForm<CustomFav>({
     resolver: zodResolver(customFavoriteSchema),
-    defaultValues: { name: "", species: "", image: "" },
+    defaultValues,
   });
 
   const router = useRouter();
 
-  const [dataUrl, setDataUrl] = useState("");
+  const [dataUrl, setDataUrl] = useState(() => hero?.image || "");
 
   const onValid: SubmitHandler<CustomFav> = async (data) => {
     // console.log({ data });
-    await addCustomToFav({ ...data, image: dataUrl });
+    if (!hero) {
+      await addCustomToFav({ ...data, image: dataUrl });
+    } else {
+      await editCustom(hero.id, data);
+    }
     router.replace("/favorites");
     router.refresh();
     // console.log("Success!");
