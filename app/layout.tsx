@@ -3,6 +3,9 @@ import "./globals.css";
 import { inter } from "@/ui/fonts";
 
 import { NavMenu } from "@/components/NavMenu";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+import { authConfig } from "@/auth.config";
 
 export const metadata: Metadata = {
   title: "R&M",
@@ -10,15 +13,19 @@ export const metadata: Metadata = {
   icons: "/icons8-rick-sanchez-16.png",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavMenu />
+        <SessionProvider session={session} basePath={authConfig.basePath}>
+          <NavMenu />
+        </SessionProvider>
+
         {children}
       </body>
     </html>
