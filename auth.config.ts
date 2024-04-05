@@ -18,8 +18,9 @@ export const authConfig = {
       console.log("-----------------------");
 
       if (
-        publicRoutes.includes(request.nextUrl.pathname) ||
-        request.nextUrl.pathname.startsWith(authRoute)
+        publicRoutes.includes(request.nextUrl.pathname)
+        //  ||
+        // request.nextUrl.pathname.startsWith(authRoute)
       ) {
         return true;
       }
@@ -31,8 +32,14 @@ export const authConfig = {
     },
   },
   providers: [
-    // github({}),
-    // google({}),
+    github({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
+    google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
     credentials({
       name: "Credentials",
       credentials: {

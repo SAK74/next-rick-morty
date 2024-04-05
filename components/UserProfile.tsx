@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
+import { cn } from "@/lib/utils";
 
 export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   const onLOgout = async () => {
@@ -15,17 +16,19 @@ export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="cursor-pointer">
+      <DropdownMenuTrigger asChild className={cn({ "cursor-pointer": user })}>
         <Avatar>
           <AvatarImage src={user?.image || undefined} />
           <AvatarFallback>
-            {(user?.name || user?.email || "").slice(0, 1).toUpperCase()}
+            {(user?.name || user?.email || "?").slice(0, 1).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={onLOgout}>Logout</DropdownMenuItem>
-      </DropdownMenuContent>
+      {user && (
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={onLOgout}>Logout</DropdownMenuItem>
+        </DropdownMenuContent>
+      )}
     </DropdownMenu>
   );
 };
