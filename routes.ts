@@ -3,4 +3,4 @@ export const publicRoutes = [
   "/example",
 ];
 
-export const authRoute = "/nextauth";
+export const authRoute = "/auth";

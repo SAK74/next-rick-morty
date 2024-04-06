@@ -18,9 +18,8 @@ export const authConfig = {
       console.log("-----------------------");
 
       if (
-        publicRoutes.includes(request.nextUrl.pathname)
-        //  ||
-        // request.nextUrl.pathname.startsWith(authRoute)
+        publicRoutes.includes(request.nextUrl.pathname) ||
+        request.nextUrl.pathname.startsWith(authRoute)
       ) {
         return true;
       }
