@@ -4,11 +4,14 @@ import { Search } from "@/app/(home)/layout";
 import { CharacterCard } from "./CharacterCard";
 import Link from "next/link";
 import { ListPagination } from "./Pagination";
+import { auth } from "@/auth";
 
 export const SearchList: FC<Search> = async ({ searchParams }) => {
   const data = await getAllCharacters(
     new URLSearchParams(searchParams).toString()
   );
+  const user = (await auth())?.user;
+  const userEmail = user && user.email!;
   return (
     <>
       {typeof data === "string" ? (
@@ -31,6 +34,7 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
                     View detail
                   </Link>
                 }
+                user={userEmail}
               ></CharacterCard>
             ))}
           </div>

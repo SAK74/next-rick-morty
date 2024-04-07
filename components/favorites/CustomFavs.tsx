@@ -1,8 +1,10 @@
 import { getAllCustomFav } from "@/services/getAllCustomFav";
 import { CharacterCard } from "../home/CharacterCard";
+import { auth } from "@/auth";
 
 export const CustomFavs = async () => {
-  const customFav = await getAllCustomFav();
+  const user = (await auth())?.user?.email;
+  const customFav = user && (await getAllCustomFav(user));
   return (
     <>
       {customFav &&
@@ -13,6 +15,7 @@ export const CustomFavs = async () => {
             link=""
             isFavoritePage
             isCustom
+            user={user}
           />
         ))}
     </>

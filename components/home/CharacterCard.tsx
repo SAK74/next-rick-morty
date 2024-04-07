@@ -5,19 +5,29 @@ import Image from "next/image";
 import { Loading } from "../Loading";
 import { EpisodeName } from "./Episode";
 import { cn, formatDate } from "@/lib/utils";
-import { AddToFav } from "./AddToFav";
+import { HandleFav } from "./HandleFav";
 import { db } from "@/lib/db";
 import { RemoveFromFav } from "../favorites/RemoveFromFav";
 import { HandleCustom } from "../favorites/HandleCustom";
 import unknownHeroIcon from "@/assets/unknown.png";
+
+const isCharacter = (
+  character: Character | CustomFav
+): character is Character => {
+  return (
+    Boolean((character as Character).species) &&
+    Boolean((character as Character).location)
+  );
+};
 
 export const CharacterCard: FC<{
   character: Character | CustomFav;
   link: ReactNode;
   isFavoritePage?: boolean;
   isCustom?: boolean;
+  user?: string;
 }> = async (props) => {
-  const { link, isFavoritePage, isCustom } = props;
+  const { link, isFavoritePage, isCustom, user } = props;
   const character = props.character satisfies Omit<
     Character,
     "created" | "id"
@@ -26,20 +36,29 @@ export const CharacterCard: FC<{
     id: string | number;
   };
 
-  const isCharacter = (
-    character: Character | CustomFav
-  ): character is Character => {
-    return (
-      Boolean((character as Character).species) &&
-      Boolean((character as Character).location)
+  let control: ReactNode = null;
+  if (isFavoritePage) {
+    control =
+      user &&
+      (isCustom ? (
+        <HandleCustom id={character.id as string} />
+      ) : (
+        <RemoveFromFav id={character.id as number} user={user} />
+      ));
+  } else {
+    const isFavorite =
+      isCharacter(character) &&
+      (await db.favorite.findUnique({
+        where: { id: character.id },
+      }));
+    control = (
+      <HandleFav
+        isFavorite={!!isFavorite}
+        id={character.id as number}
+        user={user}
+      />
     );
-  };
-
-  const isFavorite =
-    isCharacter(character) &&
-    (await db.favorite.findUnique({
-      where: { id: character.id },
-    }));
+  }
 
   return (
     <div key={character.id} className="flex w-[350px] lg:w-[500px] h-[275px]">
@@ -55,13 +74,7 @@ export const CharacterCard: FC<{
         <CardHeader>
           <CardTitle className="flex justify-between">
             {character.name}
-            {!isFavoritePage ? (
-              <AddToFav isFavorite={!!isFavorite} id={character.id as number} />
-            ) : !isCustom ? (
-              <RemoveFromFav id={character.id as number} />
-            ) : (
-              <HandleCustom id={character.id as string} />
-            )}
+            {control}
           </CardTitle>
           <div className="flex gap-2 items-center">
             <span

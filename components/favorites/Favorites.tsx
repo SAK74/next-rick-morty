@@ -1,9 +1,11 @@
 import { getAllFavorites } from "@/services/getAllFavorites";
 import { CharacterCard } from "../home/CharacterCard";
 import { GetMultipleCharacters } from "@/services/getMultipleCharacters";
+import { auth } from "@/auth";
 
 export const Favorites = async () => {
-  const favorites = await getAllFavorites();
+  const user = (await auth())?.user?.email;
+  const favorites = user && (await getAllFavorites(user));
   if (!favorites) {
     return "Some thing went wrong in db";
   }
@@ -16,14 +18,16 @@ export const Favorites = async () => {
 
   return (
     <>
-      {renderedHero.map((character) => (
-        <CharacterCard
-          key={character.id}
-          character={character}
-          link=""
-          isFavoritePage
-        />
-      ))}
+      {user &&
+        renderedHero.map((character) => (
+          <CharacterCard
+            key={character.id}
+            character={character}
+            link=""
+            isFavoritePage
+            user={user}
+          />
+        ))}
     </>
   );
 };

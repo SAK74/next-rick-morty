@@ -8,7 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
-import { cn } from "@/lib/utils";
+import { LogOutIcon, UserRoundPlusIcon } from "lucide-react";
+import Link from "next/link";
 
 export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   const onLOgout = async () => {
@@ -16,7 +17,7 @@ export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className={cn({ "cursor-pointer": user })}>
+      <DropdownMenuTrigger asChild className="cursor-pointer">
         <Avatar>
           <AvatarImage src={user?.image || undefined} />
           <AvatarFallback>
@@ -24,11 +25,19 @@ export const UserProfile: FC<{ user?: User }> = ({ user }) => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      {user && (
-        <DropdownMenuContent>
-          <DropdownMenuItem onClick={onLOgout}>Logout</DropdownMenuItem>
-        </DropdownMenuContent>
-      )}
+      <DropdownMenuContent>
+        {user ? (
+          <DropdownMenuItem onClick={onLOgout}>
+            <LogOutIcon />
+            <span>Logout</span>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem>
+            <UserRoundPlusIcon />
+            <Link href={"/auth/register"}>Register</Link>
+          </DropdownMenuItem>
+        )}
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 };

@@ -7,13 +7,14 @@ import { removeFromFav } from "@/actions/menageFavorite";
 
 export const RemoveFromFav: FC<{
   id: number;
-}> = ({ id }) => {
+  user: string;
+}> = ({ id, user }) => {
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
     setLoading(true);
     try {
-      await removeFromFav(id);
+      await removeFromFav(user, id);
     } catch {}
   };
 

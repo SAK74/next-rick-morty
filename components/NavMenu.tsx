@@ -11,8 +11,6 @@ import {
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useCallback } from "react";
-import Link from "next/link";
 import { Disc3Icon } from "lucide-react";
 import { UserProfile } from "./UserProfile";
 
@@ -28,10 +26,8 @@ const routes = [
 export const NavMenu = () => {
   const pathName = usePathname();
   const { data, status } = useSession();
-  console.log("Session in nav bar", data);
-  useCallback(() => {
-    console.log({ status });
-  }, [status]);
+  // console.log("Session in nav bar", data);
+
   return (
     <NavigationMenu
       className="bg-sky-400/60 p-4 w-full max-w-none justify-between sticky top-0 backdrop-blur-sm shadow-md

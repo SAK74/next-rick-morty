@@ -2,9 +2,9 @@
 import { CustomFav, FavResponseType } from "@/types";
 import { host } from "./getAllCharacters";
 
-const favoritesURL = new URL("/db/custom", host);
+export const getAllCustomFav = async (user: string) => {
+  const favoritesURL = new URL(`db/${user}/custom`, host);
 
-export const getAllCustomFav = async () => {
   try {
     const resp = await fetch(favoritesURL, {
       next: {
