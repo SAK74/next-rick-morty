@@ -2,7 +2,7 @@ import { DetailCharacterCard } from "@/components/home/DetailCharacterCard";
 import { Button } from "@/components/ui/button";
 import { getCharacterById } from "@/services/getCharacterById";
 import Link from "next/link";
-import { Search } from "../../layout";
+import { Search } from "../../../layout";
 
 export default async function Page({
   params: { id },

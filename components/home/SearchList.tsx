@@ -31,7 +31,7 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
                 character={character}
                 link={
                   <Link
-                    href={`/${character.id}?${new URLSearchParams(
+                    href={`/detail/${character.id}?${new URLSearchParams(
                       searchParams
                     )}`}
                   >

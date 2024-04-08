@@ -2,7 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 import github from "next-auth/providers/github";
 import google from "next-auth/providers/google";
 import credentials from "next-auth/providers/credentials";
-import { authRoute, publicRoutes } from "./routes";
+import { publicRotePrefixes, publicRoutes } from "./routes";
 
 export const authConfig = {
   basePath: "/nextauth",
@@ -19,7 +19,10 @@ export const authConfig = {
 
       if (
         publicRoutes.includes(request.nextUrl.pathname) ||
-        request.nextUrl.pathname.startsWith(authRoute)
+        // request.nextUrl.pathname.startsWith(authRoute) ||
+        publicRotePrefixes.some((prefix) =>
+          request.nextUrl.pathname.startsWith(prefix)
+        )
       ) {
         return true;
       }
