@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { CreateFavForm } from "@/components/favorites/CreateFavForm";
 // import { CreateModal } from "@/components/CreateModal";
 import { Card } from "@/components/ui/card";
@@ -14,11 +15,15 @@ export default async function CreateFavorite({
   params: { id?: string[] };
 }) {
   const customFav = id ? await getCustomFavById(id[0]) : undefined;
+  const user = (await auth())?.user?.email;
+
   return (
-    <CreateModal tooltipText="Close form">
-      <Card className="p-2">
-        <CreateFavForm hero={customFav} />
-      </Card>
-    </CreateModal>
+    user && (
+      <CreateModal tooltipText="Close form">
+        <Card className="p-2">
+          <CreateFavForm hero={customFav} user={user} />
+        </Card>
+      </CreateModal>
+    )
   );
 }

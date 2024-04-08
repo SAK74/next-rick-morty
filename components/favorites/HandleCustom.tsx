@@ -8,14 +8,15 @@ import { useRouter } from "next/navigation";
 
 export const HandleCustom: FC<{
   id: string;
-}> = ({ id }) => {
+  user: string;
+}> = ({ id, user }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await deleteCustom(id);
+      await deleteCustom(user, id);
     } catch {}
   };
 

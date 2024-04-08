@@ -5,6 +5,7 @@ import { CharacterCard } from "./CharacterCard";
 import Link from "next/link";
 import { ListPagination } from "./Pagination";
 import { auth } from "@/auth";
+import { getAllFavorites } from "@/services/getAllFavorites";
 
 export const SearchList: FC<Search> = async ({ searchParams }) => {
   const data = await getAllCharacters(
@@ -12,6 +13,9 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
   );
   const user = (await auth())?.user;
   const userEmail = user && user.email!;
+  const userFavs = userEmail
+    ? (await getAllFavorites(userEmail))?.map((fav) => fav.id)
+    : undefined;
   return (
     <>
       {typeof data === "string" ? (
@@ -35,6 +39,7 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
                   </Link>
                 }
                 user={userEmail}
+                userFavs={userFavs}
               ></CharacterCard>
             ))}
           </div>

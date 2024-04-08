@@ -26,8 +26,9 @@ export const CharacterCard: FC<{
   isFavoritePage?: boolean;
   isCustom?: boolean;
   user?: string;
+  userFavs?: number[];
 }> = async (props) => {
-  const { link, isFavoritePage, isCustom, user } = props;
+  const { link, isFavoritePage, isCustom, user, userFavs } = props;
   const character = props.character satisfies Omit<
     Character,
     "created" | "id"
@@ -41,16 +42,13 @@ export const CharacterCard: FC<{
     control =
       user &&
       (isCustom ? (
-        <HandleCustom id={character.id as string} />
+        <HandleCustom id={character.id as string} user={user} />
       ) : (
         <RemoveFromFav id={character.id as number} user={user} />
       ));
   } else {
     const isFavorite =
-      isCharacter(character) &&
-      (await db.favorite.findUnique({
-        where: { id: character.id },
-      }));
+      userFavs && isCharacter(character) && userFavs.includes(character.id);
     control = (
       <HandleFav
         isFavorite={!!isFavorite}

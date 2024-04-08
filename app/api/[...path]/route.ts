@@ -9,7 +9,9 @@ export const GET = async (
   console.log({ url: url.href, path });
   // return NextResponse.json({ test: "ok!" });
 
-  const resp = await fetch(process.env.API_URL + url.pathname + url.search, {});
+  const resp = await fetch(process.env.API_URL + url.pathname + url.search, {
+    next: { tags: ["characters"] },
+  });
 
   const json = await resp.json();
   // console.log({ json });
