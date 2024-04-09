@@ -1,8 +1,15 @@
-import type { NextAuthConfig } from "next-auth";
+import { CredentialsSignin, type NextAuthConfig } from "next-auth";
 import github from "next-auth/providers/github";
 import google from "next-auth/providers/google";
 import credentials from "next-auth/providers/credentials";
 import { publicRotePrefixes, publicRoutes } from "./routes";
+import { db } from "./lib/db";
+import { compare } from "bcryptjs";
+
+// class CustomError extends CredentialsSignin {
+//   code = "Test code";
+//   // message: string = "test message";
+// }
 
 export const authConfig = {
   basePath: "/nextauth",
@@ -26,6 +33,7 @@ export const authConfig = {
       ) {
         return true;
       }
+      // return Response.redirect(request.nextUrl) // for example
       return !!auth;
     },
     // Controls whether a user is allowed to sign in or not.
@@ -48,12 +56,31 @@ export const authConfig = {
         email: { label: "Email", placeholder: "john@doe.ex" },
         password: { label: "Password", type: "password" },
       },
-      authorize(credentials, request) {
+      async authorize(credentials, request) {
         console.log("\x1b[35m In credentials authorize \x1b[0m");
         console.log({ credentials });
-        console.log("-----------------------");
 
-        // NextResponse.redirect(request.url);
+        const { email, password } = credentials;
+        if (!email || !password) {
+          throw new CredentialsSignin();
+        }
+
+        const isUser = await db.user.findUnique({
+          where: { email: email as string },
+          select: { email: true, password: true },
+        });
+
+        if (!isUser) {
+          throw new CredentialsSignin();
+        }
+        const matchPassword = await compare(
+          password as string,
+          isUser.password
+        );
+        if (!matchPassword) {
+          throw new CredentialsSignin();
+        }
+        console.log("-----------------------");
         return { email: credentials.email as string };
       },
     }),

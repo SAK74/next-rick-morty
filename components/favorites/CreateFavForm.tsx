@@ -66,6 +66,10 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
     router.refresh();
     // console.log("Success!");
   };
+
+  const onCancel = () => {
+    router.back();
+  };
   return (
     <Form {...form}>
       <form
@@ -223,10 +227,16 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
             );
           }}
         />
-
-        <Button className="bg-sky-600 hover:bg-sky-900" type="submit">
-          Submit
-        </Button>
+        <div className="flex justify-between self-center w-11/12">
+          <Button className="bg-sky-600 hover:bg-sky-900" type="submit">
+            Submit
+          </Button>
+          {hero && (
+            <Button variant={"destructive"} onClick={onCancel}>
+              Cancel
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

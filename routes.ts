@@ -1,4 +1,8 @@
-export const publicRoutes = ["/", "/example"];
+export const publicRoutes = [
+  ,
+  // "/"
+  "/example",
+];
 
 export const publicRotePrefixes = ["/auth", "/detail"];
 

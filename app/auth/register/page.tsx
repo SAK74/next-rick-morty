@@ -1,15 +1,20 @@
 "use client";
 
 import { register } from "@/actions/registerUser";
+import { SubmitBtn } from "@/components/Submit";
+import { cn } from "@/lib/utils";
 import { useFormState } from "react-dom";
 
-// export type FormData= {
-//   status:'ok'|'error',
-//   message:string
-// }
+export type FormStateType = {
+  status: "ok" | "error";
+  message: string;
+} | null;
 
 export default function RegisterPage() {
-  const [formState, registerAction] = useFormState(register, "");
+  const [formState, registerAction] = useFormState<FormStateType, FormData>(
+    register,
+    null
+  );
   return (
     <>
       <form action={registerAction}>
@@ -20,9 +25,19 @@ export default function RegisterPage() {
           Password:{" "}
           <input type="password" name="password" placeholder="12345" />
         </label>
-        <input type="submit" />
+        {/* <input type="submit" /> */}
+        <SubmitBtn />
       </form>
-      {formState && <p className="text-destructive">{formState}</p>}
+      {formState && (
+        <p
+          className={cn({
+            "text-destructive": formState.status === "error",
+            "text-emerald-600": formState.status === "ok",
+          })}
+        >
+          {formState.message}
+        </p>
+      )}
     </>
   );
 }
