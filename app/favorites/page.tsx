@@ -18,3 +18,5 @@ export default async function FavoritePage({ params }: { params: {} }) {
     </div>
   );
 }
+
+export const dynamic = "auto";

@@ -12,7 +12,7 @@ import { compare } from "bcryptjs";
 // }
 
 export const authConfig = {
-  basePath: "/nextauth",
+  basePath: process.env.AUTH_BASE_PATH,
   pages: {},
   callbacks: {
     authorized({ auth, request }) {
@@ -37,9 +37,35 @@ export const authConfig = {
       return !!auth;
     },
     // Controls whether a user is allowed to sign in or not.
-    signIn(params) {
-      return true;
+    // signIn(params) {
+    //   // console.log("\x1b[31m In SignIn callback \x1b[0m");
+    //   // console.log(params);
+    //   // const {account,user,credentials,email,profile}  =params;
+    //   // console.log("-----------------------");
+
+    //   return true;
+    // },
+    session(params) {
+      console.log("\x1b[33m In Session callback \x1b[0m");
+      console.log(params);
+
+      const { newSession, session, token, user, trigger } = params;
+      // console.log({ user });
+      console.log("-----------------------");
+
+      return session.user.id
+        ? session
+        : { ...session, user: { ...session.user, id: token.sub } };
     },
+    // jwt(params) {
+    //   console.log("\x1b[33m In JWT callback \x1b[0m");
+    //   console.log(params);
+
+    //   const {} = params;
+    //   console.log("-----------------------");
+
+    //   return params.token;
+    // },
   },
   providers: [
     github({
@@ -67,10 +93,10 @@ export const authConfig = {
 
         const isUser = await db.user.findUnique({
           where: { email: email as string },
-          select: { email: true, password: true },
+          select: { email: true, password: true, id: true },
         });
 
-        if (!isUser) {
+        if (!isUser?.password) {
           throw new CredentialsSignin();
         }
         const matchPassword = await compare(
@@ -81,7 +107,7 @@ export const authConfig = {
           throw new CredentialsSignin();
         }
         console.log("-----------------------");
-        return { email: credentials.email as string };
+        return { email: credentials.email as string, id: isUser.id };
       },
     }),
   ],

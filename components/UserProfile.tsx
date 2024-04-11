@@ -5,15 +5,29 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
-import { LogOutIcon, UserRoundPlusIcon } from "lucide-react";
+import { LogOutIcon, UserRoundPlusIcon, UserRoundXIcon } from "lucide-react";
 import Link from "next/link";
+import { deleteUser } from "@/actions/deleteUser";
+import { REDIRECT_AFTER_LOGOUT } from "@/routes";
 
 export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   const onLOgout = async () => {
-    await signOut({ redirect: true, callbackUrl: "/example" });
+    await signOut({
+      redirect: Boolean(REDIRECT_AFTER_LOGOUT),
+      callbackUrl: REDIRECT_AFTER_LOGOUT,
+    });
+  };
+  const onDelete = async () => {
+    if (!user?.id) {
+      console.log("ID not provided");
+      return;
+    }
+    await deleteUser(user.id);
+    await onLOgout();
   };
   return (
     <DropdownMenu>
@@ -27,10 +41,17 @@ export const UserProfile: FC<{ user?: User }> = ({ user }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {user ? (
-          <DropdownMenuItem onClick={onLOgout}>
-            <LogOutIcon />
-            <span>Logout</span>
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuLabel>{user.name || user.email}</DropdownMenuLabel>
+            <DropdownMenuItem onClick={onLOgout}>
+              <LogOutIcon />
+              <span>Logout</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onDelete}>
+              <UserRoundXIcon />
+              <span>Delete account</span>
+            </DropdownMenuItem>
+          </>
         ) : (
           <DropdownMenuItem>
             <UserRoundPlusIcon />

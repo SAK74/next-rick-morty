@@ -2,7 +2,7 @@
 
 import { FormStateType } from "@/app/auth/register/page";
 import { db } from "@/lib/db";
-import { createUser } from "@/services/createUser";
+import { createUser } from "@/services/User/createUser";
 
 export const register: (
   formState: FormStateType,
