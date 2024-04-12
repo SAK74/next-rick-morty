@@ -5,15 +5,16 @@ import credentials from "next-auth/providers/credentials";
 import { publicRotePrefixes, publicRoutes } from "./routes";
 import { db } from "./lib/db";
 import { compare } from "bcryptjs";
+// import logo from "@/assets/unknown.png";
 
 // class CustomError extends CredentialsSignin {
 //   code = "Test code";
 //   // message: string = "test message";
 // }
-
 export const authConfig = {
   basePath: process.env.AUTH_BASE_PATH,
-  pages: {},
+  // pages: { signIn: "/auth/login" },
+  // theme: { logo: logo.src },
   callbacks: {
     authorized({ auth, request }) {
       // Invoked when a user needs authorization, using Middleware.
@@ -51,11 +52,14 @@ export const authConfig = {
 
       const { newSession, session, token, user, trigger } = params;
       // console.log({ user });
+      // if(!session.user.id){
+      // }
       console.log("-----------------------");
 
-      return session.user.id
-        ? session
-        : { ...session, user: { ...session.user, id: token.sub } };
+      // return session.user.id
+      //   ? session
+      //   : { ...session, user: { ...session.user, id: token.sub } };
+      return { ...session, user: { ...session.user, id: token.sub } };
     },
     // jwt(params) {
     //   console.log("\x1b[33m In JWT callback \x1b[0m");

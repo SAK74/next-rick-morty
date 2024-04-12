@@ -228,7 +228,7 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
           }}
         />
         <div className="flex justify-between self-center w-11/12">
-          <Button className="bg-sky-600 hover:bg-sky-900" type="submit">
+          <Button className="hover:bg-sky-900" type="submit">
             Submit
           </Button>
           {hero && (

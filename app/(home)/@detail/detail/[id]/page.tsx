@@ -17,14 +17,9 @@ export default async function Page({
     return character;
   }
   return (
-    <div className="px-6 flex flex-col gap-4">
-      <Button size="lg" className="bg-sky-600 self-center md:hidden">
-        <Link href={"/?" + new URLSearchParams(searchParams).toString()}>
-          Close details
-        </Link>
-      </Button>
+    <div className="px-6 flex flex-col-reverse md:flex-col gap-4 ">
       <DetailCharacterCard character={character} />
-      <Button size="lg" className="bg-sky-600 self-center hidden md:block">
+      <Button size="lg" className="self-center">
         <Link href={"/?" + new URLSearchParams(searchParams).toString()}>
           Close details
         </Link>

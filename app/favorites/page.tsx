@@ -8,7 +8,7 @@ export default async function FavoritePage({ params }: { params: {} }) {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <Button className="bg-sky-600 self-end">
+      <Button className="self-end">
         <Link href={"/favorites/create"}>Create custom</Link>
       </Button>
       <div className="flex flex-wrap gap-4 justify-around">

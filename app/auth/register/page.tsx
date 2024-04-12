@@ -19,14 +19,17 @@ export default function RegisterPage() {
     <>
       <form action={registerAction}>
         <label>
-          E-mail: <input type="text" name="email" placeholder="John Kowalski" />
+          E-mail:{" "}
+          <input type="email" name="email" placeholder="John Kowalski" />
         </label>
         <label>
           Password:{" "}
           <input type="password" name="password" placeholder="12345" />
         </label>
         {/* <input type="submit" /> */}
-        <SubmitBtn />
+        <SubmitBtn>
+          <input type="submit" value="Confirm" />
+        </SubmitBtn>
       </form>
       {formState && (
         <p
