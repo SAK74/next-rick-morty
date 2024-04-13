@@ -10,11 +10,16 @@ import { ShowMessage } from "../ShowMessage";
 import { useFormState } from "react-dom";
 import { login, register } from "@/actions/userAuth";
 import { Separator } from "@/components/ui/separator";
+import { UserCredentials } from "@/types";
+import { cn } from "@/lib/utils";
 
-export type FormStateType = {
-  status: "ok" | "error";
-  message: string;
-} | null;
+export type FormStateType<T = UserCredentials> =
+  | {
+      status: "ok";
+      message: string;
+    }
+  | { status: "error"; message: string | { [k in keyof T]?: string[] } }
+  | null;
 
 export const LoginForm: FC<{ type: "login" | "register"; error?: string }> = ({
   type,
@@ -28,10 +33,24 @@ export const LoginForm: FC<{ type: "login" | "register"; error?: string }> = ({
   const searchParams = useSearchParams();
   const callBack = searchParams.get("callbackUrl");
 
-  const [formState, formAction] = useFormState<FormStateType, FormData>(
-    type === "login" ? login : register,
-    null
-  );
+  const [formState, formAction] = useFormState<
+    FormStateType<UserCredentials>,
+    FormData
+  >(type === "login" ? login : register, null);
+
+  const emailError =
+    formState?.status === "error" &&
+    typeof formState.message !== "string" &&
+    formState.message.email
+      ? formState.message.email[0]
+      : undefined;
+
+  const passwordError =
+    formState?.status === "error" &&
+    typeof formState.message !== "string" &&
+    formState.message.password
+      ? formState.message.password[0]
+      : undefined;
 
   return (
     <Card className="w-[500px] relative z-20 text-white bg-[radial-gradient(ellipse,_var(--tw-gradient-stops))] from-blue-300 to-sky-800">
@@ -40,7 +59,6 @@ export const LoginForm: FC<{ type: "login" | "register"; error?: string }> = ({
           variant={"link"}
           className="self-start text-sky-300"
           onClick={onClickBack}
-          color="blue"
         >
           ⬅ Go back
         </Button>
@@ -53,16 +71,26 @@ export const LoginForm: FC<{ type: "login" | "register"; error?: string }> = ({
             <Input
               name="email"
               placeholder="john@kowalski.com"
-              className="text-gray-900"
+              className={cn(
+                { "border-2 border-destructive": emailError },
+                "text-gray-900"
+              )}
             />
+            {emailError && <div className="text-destructive">{emailError}</div>}
           </label>
           <label>
             Password:
             <Input
               name="password"
               placeholder="12345"
-              className="text-gray-900"
+              className={cn(
+                { "border-2 border-destructive": passwordError },
+                "text-gray-900"
+              )}
             />
+            {passwordError && (
+              <div className="text-destructive">{passwordError}</div>
+            )}
           </label>
           <Button type="submit" className="self-center w-1/4">
             {type === "login" ? "Login" : "Register"}
@@ -71,6 +99,11 @@ export const LoginForm: FC<{ type: "login" | "register"; error?: string }> = ({
           {formState && (
             <ShowMessage
               type={formState.status === "ok" ? "success" : "error"}
+              message={
+                typeof formState.message === "string"
+                  ? formState.message
+                  : "Wrong credentials"
+              }
             />
           )}
         </form>

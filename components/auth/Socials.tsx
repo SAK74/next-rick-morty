@@ -7,7 +7,6 @@ import { useSearchParams } from "next/navigation";
 export const Socials = () => {
   const searchParams = useSearchParams();
   const callBack = searchParams.get("callbackUrl");
-  console.log({ callBack });
   const onClick = (type: "github" | "google") => {
     signIn(type, {
       redirect: Boolean(callBack),

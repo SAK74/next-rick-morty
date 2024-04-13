@@ -8,7 +8,7 @@ export const ShowMessage: FC<{
 }> = ({ type, message = "" }) => (
   <div
     className={cn("flex gap-4", {
-      "text-lime-700": type === "success",
+      "text-emerald-700": type === "success",
       "text-destructive": type === "error",
     })}
   >
