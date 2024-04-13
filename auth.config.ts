@@ -13,7 +13,7 @@ import { compare } from "bcryptjs";
 // }
 export const authConfig = {
   basePath: process.env.AUTH_BASE_PATH,
-  // pages: { signIn: "/auth/login" },
+  pages: { signIn: "/auth/login" },
   // theme: { logo: logo.src },
   callbacks: {
     authorized({ auth, request }) {

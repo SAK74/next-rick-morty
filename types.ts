@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { customFavoriteSchema } from "./schemas";
+import { customFavoriteSchema, userCredentialsSchema } from "./schemas";
 
 export type Character = {
   id: number; //	The id of the character.
@@ -60,3 +60,5 @@ export type CustomFav = Required<z.infer<typeof customFavoriteSchema>> & {
   created: Date;
   id: string;
 };
+
+export type UserCredentials = z.infer<typeof userCredentialsSchema>;

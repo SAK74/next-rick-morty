@@ -1,17 +1,17 @@
+import { LoginForm } from "@/components/auth/loginForm";
+
 export default function Page({
   params,
   searchParams,
 }: {
   params: any;
-  searchParams: any;
+  searchParams: { callbackurl?: string; error?: string };
 }) {
-  const paramId = params.paramId;
-  const searchId = searchParams.searchId;
+  // const paramId = params.paramId;
+  // const searchId = searchParams.searchId;
   return (
     <main>
-      Login page
-      <p>Params: {JSON.stringify(params)}</p>
-      <p>Search params: {JSON.stringify(searchParams)}</p>
+      <LoginForm type="login" error={searchParams.error} />
     </main>
   );
 }
