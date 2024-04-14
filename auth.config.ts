@@ -7,10 +7,6 @@ import { db } from "./lib/db";
 import { compare } from "bcryptjs";
 // import logo from "@/assets/unknown.png";
 
-// class CustomError extends CredentialsSignin {
-//   code = "Test code";
-//   // message: string = "test message";
-// }
 export const authConfig = {
   basePath: process.env.AUTH_BASE_PATH,
   pages: { signIn: "/auth/login" },
@@ -47,18 +43,13 @@ export const authConfig = {
     //   return true;
     // },
     session(params) {
-      console.log("\x1b[33m In Session callback \x1b[0m");
-      console.log(params);
+      // console.log("\x1b[33m In Session callback \x1b[0m");
+      // console.log(params);
 
       const { newSession, session, token, user, trigger } = params;
-      // console.log({ user });
-      // if(!session.user.id){
-      // }
-      console.log("-----------------------");
 
-      // return session.user.id
-      //   ? session
-      //   : { ...session, user: { ...session.user, id: token.sub } };
+      // console.log("-----------------------");
+
       return { ...session, user: { ...session.user, id: token.sub } };
     },
     // jwt(params) {
@@ -90,28 +81,29 @@ export const authConfig = {
         console.log("\x1b[35m In credentials authorize \x1b[0m");
         console.log({ credentials });
 
-        const { email, password } = credentials;
-        if (!email || !password) {
-          throw new CredentialsSignin();
-        }
+        const { email } = credentials;
+        // if (!email || !password) {
+        //   throw new CredentialsSignin();
+        // }
 
         const isUser = await db.user.findUnique({
           where: { email: email as string },
-          select: { email: true, password: true, id: true },
+          select: { email: true, id: true },
         });
 
-        if (!isUser?.password) {
+        if (!isUser) {
           throw new CredentialsSignin();
         }
-        const matchPassword = await compare(
-          password as string,
-          isUser.password
-        );
-        if (!matchPassword) {
-          throw new CredentialsSignin();
-        }
+        // const matchPassword = await compare(
+        //   password as string,
+        //   isUser.password
+        // );
+        // if (!matchPassword) {
+        //   console.log("Wrong password");
+        //   throw new CredentialsSignin();
+        // }
         console.log("-----------------------");
-        return { email: credentials.email as string, id: isUser.id };
+        return isUser;
       },
     }),
   ],

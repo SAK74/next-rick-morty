@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "../../../components/ui/button";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { DEFAULT_REDIRECT_AFTER_LOGIN } from "@/routes";
 
 export const Socials = () => {
   const searchParams = useSearchParams();
@@ -10,7 +11,7 @@ export const Socials = () => {
   const onClick = (type: "github" | "google") => {
     signIn(type, {
       redirect: Boolean(callBack),
-      ...(callBack && { callbackUrl: callBack }),
+      callbackUrl: callBack || DEFAULT_REDIRECT_AFTER_LOGIN,
     });
   };
   return (

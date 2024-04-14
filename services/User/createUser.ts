@@ -1,12 +1,14 @@
+import { SALT } from "@/_constants";
 import { db } from "@/lib/db";
 import { hash } from "bcryptjs";
-import { User } from "prisma/prisma-client";
 
-export const createUser = async (
-  user: Pick<User, "email"> & { password: string }
-) => {
+export const createUser = async (user: { email: string; password: string }) => {
   try {
-    const password = await hash(user.password, 10);
+    const password = await hash(user.password, SALT);
     await db.user.create({ data: { ...user, password } });
-  } catch {}
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 };
