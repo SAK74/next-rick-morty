@@ -1,17 +1,15 @@
-import { LoginForm } from "@/components/auth/loginForm";
+import { AuthForm } from "@/app/auth/_components/AuthForm";
 
-export default function Page({
-  params,
+export default function LoginPage({
+  // params,
   searchParams,
 }: {
-  params: any;
+  // params: string;
   searchParams: { callbackurl?: string; error?: string };
 }) {
-  // const paramId = params.paramId;
-  // const searchId = searchParams.searchId;
   return (
     <main>
-      <LoginForm type="login" error={searchParams.error} />
+      <AuthForm type="login" error={searchParams.error} />
     </main>
   );
 }

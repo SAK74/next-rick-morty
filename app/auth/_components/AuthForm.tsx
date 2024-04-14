@@ -2,11 +2,11 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { FC } from "react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Socials } from "./Socials";
-import { ShowMessage } from "../ShowMessage";
+import { ShowMessage } from "../../../components/ShowMessage";
 import { useFormState } from "react-dom";
 import { login, register } from "@/actions/userAuth";
 import { Separator } from "@/components/ui/separator";
@@ -21,7 +21,7 @@ export type FormStateType<T = UserCredentials> =
   | { status: "error"; message: string | { [k in keyof T]?: string[] } }
   | null;
 
-export const LoginForm: FC<{ type: "login" | "register"; error?: string }> = ({
+export const AuthForm: FC<{ type: "login" | "register"; error?: string }> = ({
   type,
   error,
 }) => {
