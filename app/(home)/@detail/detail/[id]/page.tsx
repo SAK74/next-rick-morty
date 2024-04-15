@@ -12,7 +12,7 @@ export default async function Page({
   searchParams: Search["searchParams"];
 }) {
   const character = await getCharacterById(id);
-  console.log(Page.name, { id, searchParams });
+  // console.log(Page.name, { id, searchParams });
   if (typeof character === "string") {
     return character;
   }

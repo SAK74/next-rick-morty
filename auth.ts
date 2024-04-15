@@ -12,21 +12,28 @@ export const {
   ...authConfig,
   events: {
     signIn(message) {
-      console.log("\x1b[92m Sign in Event: \x1b[0m", message);
-      console.log("-----------------------");
+      if (process.env.NODE_ENV === "development") {
+        console.log("\x1b[92m Sign in Event: \x1b[0m", message);
+        console.log("-----------------------");
+      }
     },
     signOut(message) {
-      console.log("\x1b[31m Signout in Event: \x1b[0m", message);
-      console.log("-----------------------");
+      if (process.env.NODE_ENV === "development") {
+        console.log("\x1b[31m Signout in Event: \x1b[0m", message);
+        console.log("-----------------------");
+      }
     },
     async linkAccount(message) {
       const { account, profile, user } = message;
-      console.log("\x1b[95m Link account in Event: \x1b[0m", message);
+      if (process.env.NODE_ENV === "development") {
+        console.log("\x1b[95m Link account in Event: \x1b[0m", message);
+        console.log("-----------------------");
+      }
+
       await db.user.update({
         where: { id: user.id },
         data: { emailVerified: new Date() },
       });
-      console.log("-----------------------");
     },
   },
   adapter: PrismaAdapter(db),

@@ -4,7 +4,6 @@ import google from "next-auth/providers/google";
 import credentials from "next-auth/providers/credentials";
 import { publicRotePrefixes, publicRoutes } from "./routes";
 import { db } from "./lib/db";
-import { compare } from "bcryptjs";
 // import logo from "@/assets/unknown.png";
 
 export const authConfig = {
@@ -15,11 +14,13 @@ export const authConfig = {
     authorized({ auth, request }) {
       // Invoked when a user needs authorization, using Middleware.
       //You can override this behavior by returning a NextResponse.
-      console.log("\x1b[34m In authorized callback \x1b[0m");
+      if (process.env.NODE_ENV === "development") {
+        console.log("\x1b[34m In authorized callback \x1b[0m");
 
-      console.log({ auth });
-      console.log({ path: request.nextUrl.pathname });
-      console.log("-----------------------");
+        console.log({ auth });
+        console.log({ path: request.nextUrl.pathname });
+        console.log("-----------------------");
+      }
 
       if (
         publicRoutes.includes(request.nextUrl.pathname) ||
@@ -78,8 +79,11 @@ export const authConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, request) {
-        console.log("\x1b[35m In credentials authorize \x1b[0m");
-        console.log({ credentials });
+        if (process.env.NODE_ENV === "development") {
+          console.log("\x1b[35m In credentials authorize \x1b[0m");
+          console.log({ credentials });
+          console.log("-----------------------");
+        }
 
         const { email } = credentials;
         // if (!email || !password) {
@@ -102,7 +106,6 @@ export const authConfig = {
         //   console.log("Wrong password");
         //   throw new CredentialsSignin();
         // }
-        console.log("-----------------------");
         return isUser;
       },
     }),

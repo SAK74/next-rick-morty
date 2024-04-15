@@ -22,7 +22,7 @@ export const getAllCharacters = async (query?: string) => {
     }
     return result as string;
   } catch (err) {
-    console.log({ err });
+    console.log("getAllCharacters: ", err);
     return (err as Error).message;
   }
 };

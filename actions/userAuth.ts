@@ -12,7 +12,6 @@ import { DEFAULT_REDIRECT_AFTER_LOGIN } from "@/routes";
 const parseCredentials = (data: FormData) => {
   const email = data.get("email");
   const password = data.get("password");
-  console.log({ email, password });
   return userCredentialsSchema.safeParse({
     email,
     password,
@@ -61,7 +60,8 @@ export const login: (
     });
     return null;
   } catch (err) {
-    console.log(err);
+    console.log("\x1b[31m Error in login user action: \x1b[0m", err);
+
     if (err instanceof AuthError) {
       return { status: "error", message: "Something went wrong..." };
     }

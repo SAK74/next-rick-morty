@@ -20,7 +20,7 @@ export async function GET(
     // const result = params;
     return NextResponse.json({ message: "OK", result }, { status: 200 });
   } catch (error) {
-    console.log({ error });
+    console.log("Fetch db err: ", error);
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
 }

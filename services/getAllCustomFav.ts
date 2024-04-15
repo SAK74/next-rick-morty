@@ -20,7 +20,7 @@ export const getAllCustomFav = async (user: string) => {
     // console.log(result.error);
     // return "Some thing went wrong in db";
   } catch (err) {
-    // console.log(err);
+    console.log("getAllCustomFav: ", err);
     // return "Some thing went wrong in db";
   }
 };
