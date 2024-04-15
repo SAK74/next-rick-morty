@@ -32,7 +32,7 @@ export const AuthForm: FC<{ type: "login" | "register" }> = ({ type }) => {
         <p className="text-primary mt-4">
           {type === "login" ? (
             <>
-              Don't have account?
+              {"Don't have account?"}
               <Button variant={"link"} asChild className="text-sky-900">
                 <Link href={"/auth/register"}>Register here</Link>
               </Button>
