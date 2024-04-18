@@ -4,22 +4,27 @@ import { Heart as HeartIcon, Disc3Icon } from "lucide-react";
 import { FC, useState } from "react";
 import { MyTooltip } from "../Tooltip";
 import { addToFav, removeFromFav } from "@/actions/menageFavorite";
+import { cn } from "@/lib/utils";
 
-export const AddToFav: FC<{
+export const HandleFav: FC<{
   isFavorite: boolean;
   id: number;
-}> = ({ isFavorite, id }) => {
+  user?: string;
+}> = ({ isFavorite, id, user }) => {
   const [isFav, setIsFav] = useState<boolean>(() => isFavorite);
   const [loading, setLoading] = useState(false);
 
   const handleAddToFav = async () => {
+    if (!user) {
+      return;
+    }
     setLoading(true);
     try {
       if (!isFav) {
-        await addToFav(id);
+        await addToFav(user, id);
         setIsFav(true);
       } else {
-        await removeFromFav(id);
+        await removeFromFav(user, id);
         setIsFav(false);
       }
     } catch {
@@ -28,11 +33,20 @@ export const AddToFav: FC<{
     }
   };
 
+  const tooltipText = !user
+    ? "Must loggin to select"
+    : !isFav
+    ? "Add to favorites"
+    : "Remove from favorites";
+
   return (
     <>
       {loading && <Disc3Icon color="blue" className="animate-spin" />}
       {!loading && (
-        <MyTooltip text={!isFav ? "Add to favorites" : "Remove from favorites"}>
+        <MyTooltip
+          text={tooltipText}
+          className={cn({ "bg-destructive/70": !user })}
+        >
           <HeartIcon
             fill={isFav ? "red" : "none"}
             className="cursor-pointer hover:scale-105"

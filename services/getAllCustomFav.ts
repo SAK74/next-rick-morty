@@ -2,9 +2,9 @@
 import { CustomFav, FavResponseType } from "@/types";
 import { host } from "./getAllCharacters";
 
-const favoritesURL = new URL("/db/custom", host);
+export const getAllCustomFav = async (user: string) => {
+  const favoritesURL = new URL(`db/${user}/custom`, host);
 
-export const getAllCustomFav = async () => {
   try {
     const resp = await fetch(favoritesURL, {
       next: {
@@ -20,7 +20,7 @@ export const getAllCustomFav = async () => {
     // console.log(result.error);
     // return "Some thing went wrong in db";
   } catch (err) {
-    // console.log(err);
+    console.log("getAllCustomFav: ", err);
     // return "Some thing went wrong in db";
   }
 };

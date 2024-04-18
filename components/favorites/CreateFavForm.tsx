@@ -30,7 +30,10 @@ import defaultIcon from "@/assets/unknown.png";
 import { useRouter } from "next/navigation";
 import { editCustom } from "@/actions/editCustom";
 
-export const CreateFavForm: FC<{ hero?: CustomFav }> = ({ hero }) => {
+export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
+  hero,
+  user,
+}) => {
   const defaultValues: Partial<CustomFav> = hero
     ? {
         name: hero.name,
@@ -55,13 +58,17 @@ export const CreateFavForm: FC<{ hero?: CustomFav }> = ({ hero }) => {
   const onValid: SubmitHandler<CustomFav> = async (data) => {
     // console.log({ data });
     if (!hero) {
-      await addCustomToFav({ ...data, image: dataUrl });
+      await addCustomToFav(user, { ...data, image: dataUrl });
     } else {
-      await editCustom(hero.id, data);
+      await editCustom(user, hero.id, data);
     }
     router.replace("/favorites");
     router.refresh();
     // console.log("Success!");
+  };
+
+  const onCancel = () => {
+    router.back();
   };
   return (
     <Form {...form}>
@@ -220,10 +227,16 @@ export const CreateFavForm: FC<{ hero?: CustomFav }> = ({ hero }) => {
             );
           }}
         />
-
-        <Button className="bg-sky-600 hover:bg-sky-900" type="submit">
-          Submit
-        </Button>
+        <div className="flex justify-between self-center w-11/12">
+          <Button className="hover:bg-sky-900" type="submit">
+            Submit
+          </Button>
+          {hero && (
+            <Button variant={"destructive"} onClick={onCancel}>
+              Cancel
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

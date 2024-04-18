@@ -4,11 +4,18 @@ import { Search } from "@/app/(home)/layout";
 import { CharacterCard } from "./CharacterCard";
 import Link from "next/link";
 import { ListPagination } from "./Pagination";
+import { auth } from "@/auth";
+import { getAllFavorites } from "@/services/getAllFavorites";
 
 export const SearchList: FC<Search> = async ({ searchParams }) => {
   const data = await getAllCharacters(
     new URLSearchParams(searchParams).toString()
   );
+  const user = (await auth())?.user;
+  const userEmail = user && user.email!;
+  const userFavs = userEmail
+    ? (await getAllFavorites(userEmail))?.map((fav) => fav.id)
+    : undefined;
   return (
     <>
       {typeof data === "string" ? (
@@ -24,13 +31,15 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
                 character={character}
                 link={
                   <Link
-                    href={`/${character.id}?${new URLSearchParams(
+                    href={`/detail/${character.id}?${new URLSearchParams(
                       searchParams
                     )}`}
                   >
                     View detail
                   </Link>
                 }
+                user={userEmail}
+                userFavs={userFavs}
               ></CharacterCard>
             ))}
           </div>

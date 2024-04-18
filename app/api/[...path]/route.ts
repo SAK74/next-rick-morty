@@ -6,15 +6,19 @@ export const GET = async (
 ) => {
   const url = new URL(request.url);
 
-  console.log({ url: url.href, path });
   // return NextResponse.json({ test: "ok!" });
 
-  const resp = await fetch(process.env.API_URL + url.pathname + url.search, {});
+  const resp = await fetch(process.env.API_URL + url.pathname + url.search, {
+    next: { tags: ["characters"] },
+  });
 
   const json = await resp.json();
-  // console.log({ json });
-  console.log("API has fetched");
-  console.log("----------------------");
+  if (process.env.NODE_ENV === "development") {
+    console.log({ url: url.href, path });
+    console.log("API has fetched");
+    console.log("----------------------");
+  }
+
   if (!resp.ok) {
     let message: string;
     if (json) {

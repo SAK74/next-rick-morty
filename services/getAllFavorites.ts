@@ -2,9 +2,9 @@ import { FavResponseType } from "@/types";
 import { host } from "./getAllCharacters";
 import { Favorite } from "@prisma/client";
 
-const favoritesURL = new URL("/db/favorites", host);
+export const getAllFavorites = async (userEmail: string) => {
+  const favoritesURL = new URL(`/db/${userEmail}/favorites`, host);
 
-export const getAllFavorites = async () => {
   try {
     const resp = await fetch(favoritesURL, {
       next: {

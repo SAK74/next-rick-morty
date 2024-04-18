@@ -10,6 +10,9 @@ import {
 } from "./ui/navigation-menu";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { Disc3Icon } from "lucide-react";
+import { UserProfile } from "./UserProfile";
 
 const routes = [
   {
@@ -22,9 +25,12 @@ const routes = [
 
 export const NavMenu = () => {
   const pathName = usePathname();
+  const { data, status } = useSession();
+  // console.log("Session in nav bar", data);
+
   return (
     <NavigationMenu
-      className="bg-sky-400/60 p-4 w-full max-w-none justify-start sticky top-0 backdrop-blur-sm shadow-md
+      className="bg-sky-400/60 p-4 w-full max-w-none justify-between sticky top-0 backdrop-blur-sm shadow-md
     "
     >
       <NavigationMenuList>
@@ -47,6 +53,15 @@ export const NavMenu = () => {
           );
         })}
       </NavigationMenuList>
+      {status === "loading" ? (
+        <Disc3Icon color="black" className="animate-spin" />
+      ) : status === "authenticated" ? (
+        // <Link href={"/nextauth/signout"}>Logout</Link>
+        <UserProfile user={data.user} />
+      ) : (
+        // <Link href="/nextauth/signin">Login</Link>
+        <UserProfile />
+      )}
     </NavigationMenu>
   );
 };

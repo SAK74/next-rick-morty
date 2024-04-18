@@ -16,7 +16,7 @@ export const getCharacterById = async (id: string) => {
       return "Error";
     }
   } catch (err) {
-    console.log({ err });
+    console.log("getCharacterById: ", err);
     return (err as Error).message;
   }
 };
