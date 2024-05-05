@@ -16,7 +16,7 @@ export const AuthForm: FC<{ type: "login" | "register" }> = ({ type }) => {
   };
 
   return (
-    <Card className="max-w-sm relative z-20 text-white bg-[radial-gradient(ellipse,_var(--tw-gradient-stops))] from-blue-300 to-sky-800">
+    <Card className="relative z-20 text-white bg-[radial-gradient(ellipse,_var(--tw-gradient-stops))] from-blue-300 to-sky-800">
       <CardHeader className="text-center">
         <Button
           variant={"link"}

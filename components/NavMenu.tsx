@@ -56,10 +56,8 @@ export const NavMenu = () => {
       {status === "loading" ? (
         <Disc3Icon color="black" className="animate-spin" />
       ) : status === "authenticated" ? (
-        // <Link href={"/nextauth/signout"}>Logout</Link>
         <UserProfile user={data.user} />
       ) : (
-        // <Link href="/nextauth/signin">Login</Link>
         <UserProfile />
       )}
     </NavigationMenu>

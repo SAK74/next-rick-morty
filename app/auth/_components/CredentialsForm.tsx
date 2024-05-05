@@ -75,7 +75,7 @@ export const CredentialsForm: FC<{ type: "login" | "register" }> = ({
           <div className="text-destructive">{passwordError}</div>
         )}
       </label>
-      <Button type="submit" className="self-center w-1/4">
+      <Button type="submit" className="self-center">
         {type === "login" ? "Login" : "Register"}
       </Button>
       {formState && (
