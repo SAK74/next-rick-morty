@@ -15,6 +15,6 @@
 ### Implemented:
 
 - interaction with PstgresDB through Prisma ORM
-- authorization through AuthJS
+- authorization with AuthJS
 
 #### [Check the deployed version on Vercel!](https://next-rick-morty-ten.vercel.app/)
