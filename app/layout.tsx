@@ -10,7 +10,7 @@ import { authConfig } from "@/auth.config";
 export const metadata: Metadata = {
   title: "R&M",
   description: "Learning app",
-  icons: "/icons8-rick-sanchez-16.png",
+  icons: "/icon.png",
 };
 
 export default async function RootLayout({
