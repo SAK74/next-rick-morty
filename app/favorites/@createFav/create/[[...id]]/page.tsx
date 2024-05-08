@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { CreateFavForm } from "@/components/favorites/CreateFavForm";
-// import { CreateModal } from "@/components/CreateModal";
 import { Card } from "@/components/ui/card";
 import { getCustomFavById } from "@/services/getCustomFavById";
 import dynamic from "next/dynamic";

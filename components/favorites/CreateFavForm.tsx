@@ -1,7 +1,7 @@
 "use client";
 
-import { CustomFav } from "@/types";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { CustomFav } from "@/types";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -22,13 +22,14 @@ import {
   SelectValue,
 } from "../ui/select";
 
-import { Custom } from "@prisma/client";
-import { FC, useState } from "react";
+import { type Custom } from "@prisma/client";
+import { type FC, useState } from "react";
 import { addCustomToFav } from "@/actions/addCustomFav";
 import Image from "next/image";
 import defaultIcon from "@/assets/unknown.png";
 import { useRouter } from "next/navigation";
 import { editCustom } from "@/actions/editCustom";
+import { Disc3Icon } from "lucide-react";
 
 export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
   hero,
@@ -56,7 +57,6 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
   const [dataUrl, setDataUrl] = useState(() => hero?.image || "");
 
   const onValid: SubmitHandler<CustomFav> = async (data) => {
-    // console.log({ data });
     if (!hero) {
       await addCustomToFav(user, { ...data, image: dataUrl });
     } else {
@@ -64,7 +64,6 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
     }
     router.replace("/favorites");
     router.refresh();
-    // console.log("Success!");
   };
 
   const onCancel = () => {
@@ -228,11 +227,18 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
           }}
         />
         <div className="flex justify-between self-center w-11/12">
-          <Button className="hover:bg-sky-900" type="submit">
-            Submit
+          <Button
+            className="hover:bg-sky-900"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            Submit&nbsp;
+            {form.formState.isSubmitting && (
+              <Disc3Icon className="animate-spin" />
+            )}
           </Button>
           {hero && (
-            <Button variant={"destructive"} onClick={onCancel}>
+            <Button variant={"destructive"} onClick={onCancel} type="button">
               Cancel
             </Button>
           )}
