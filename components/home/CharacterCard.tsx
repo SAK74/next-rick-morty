@@ -1,15 +1,16 @@
-import { Character, CustomFav } from "@/types";
-import { FC, ReactNode, Suspense } from "react";
+import type { Character, CustomFav } from "@/types";
+import { type FC, type ReactNode, Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { Loading } from "../Loading";
 import { EpisodeName } from "./Episode";
 import { cn, formatDate } from "@/lib/utils";
 import { HandleFav } from "./HandleFav";
-import { db } from "@/lib/db";
 import { RemoveFromFav } from "../favorites/RemoveFromFav";
 import { HandleCustom } from "../favorites/HandleCustom";
 import unknownHeroIcon from "@/assets/unknown.png";
+import Link from "next/link";
+import { type Favorite } from "@prisma/client";
 
 const isCharacter = (
   character: Character | CustomFav
@@ -22,13 +23,13 @@ const isCharacter = (
 
 export const CharacterCard: FC<{
   character: Character | CustomFav;
-  link: ReactNode;
+  linkHref?: string;
   isFavoritePage?: boolean;
   isCustom?: boolean;
   user?: string;
-  userFavs?: number[];
+  userFavs?: Favorite["id"][];
 }> = async (props) => {
-  const { link, isFavoritePage, isCustom, user, userFavs } = props;
+  const { linkHref, isFavoritePage, isCustom, user, userFavs } = props;
   const character = props.character satisfies Omit<
     Character,
     "created" | "id"
@@ -59,17 +60,24 @@ export const CharacterCard: FC<{
   }
 
   return (
-    <div key={character.id} className="flex w-[350px] lg:w-[500px] h-[275px]">
-      <Image
-        src={character.image || unknownHeroIcon}
-        alt={character.name + "image"}
-        width={200}
-        height={250}
-        className="h-full rounded-l-lg md:max-lg:hidden"
-      />
+    <div
+      key={character.id}
+      className="flex w-[450px] md:max-lg:w-[350px] h-[250px]"
+    >
+      <Link
+        href={linkHref ?? ""}
+        className="w-[200px] relative h-full md:max-lg:hidden"
+      >
+        <Image
+          src={character.image || unknownHeroIcon}
+          alt={character.name + "image"}
+          fill
+          className="rounded-l-lg"
+        />
+      </Link>
 
       <Card className="rounded-l-none bg-slate-100 flex-grow flex flex-col">
-        <CardHeader>
+        <CardHeader className="pb-4">
           <CardTitle className="flex justify-between">
             {character.name}
             {control}
@@ -82,7 +90,7 @@ export const CharacterCard: FC<{
                   "bg-red-800": character.status === "Dead",
                   "bg-gray-400": character.status === "unknown",
                 },
-                "w-3 h-3 rounded-full"
+                "size-3 rounded-full"
               )}
             ></span>
             <span>{character.status}</span>
@@ -91,8 +99,7 @@ export const CharacterCard: FC<{
           </div>
           <div>{character.gender}</div>
         </CardHeader>
-        <CardContent className="flex flex-col justify-between flex-grow pb-0">
-          {/* <div>{character.gender}</div> */}
+        <CardContent className="flex flex-col justify-between flex-grow pb-0 text-sm">
           {isCharacter(character) && (
             <div>
               <div className="text-gray-400">Last know location: </div>
@@ -114,9 +121,14 @@ export const CharacterCard: FC<{
             </>
           )}
         </CardContent>
-        <div className="self-end mr-4 text-blue-400 hover:scale-105 hover:text-blue-500">
-          {link}
-        </div>
+        {linkHref && (
+          <Link
+            className="self-end mr-4 text-blue-400 hover:scale-105 hover:text-blue-500"
+            href={linkHref}
+          >
+            View detail
+          </Link>
+        )}
       </Card>
     </div>
   );

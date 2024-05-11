@@ -12,7 +12,6 @@ export const CustomFavs = async () => {
           <CharacterCard
             key={fav.id}
             character={fav}
-            link=""
             isFavoritePage
             isCustom
             user={user}
