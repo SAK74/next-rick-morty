@@ -12,17 +12,15 @@ export default async function Page({
   searchParams: Search["searchParams"];
 }) {
   const character = await getCharacterById(id);
-  // console.log(Page.name, { id, searchParams });
   if (typeof character === "string") {
     return character;
   }
+  const href = "/?" + new URLSearchParams(searchParams).toString();
   return (
-    <div className="px-6 flex flex-col-reverse md:flex-col gap-4 ">
-      <DetailCharacterCard character={character} />
+    <div className="px-6 flex flex-col-reverse md:flex-col gap-4 relative">
+      <DetailCharacterCard character={character} href={href} />
       <Button size="lg" className="self-center">
-        <Link href={"/?" + new URLSearchParams(searchParams).toString()}>
-          Close details
-        </Link>
+        <Link href={href}>Close details</Link>
       </Button>
     </div>
   );

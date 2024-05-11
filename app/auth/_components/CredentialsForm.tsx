@@ -1,14 +1,14 @@
 "use client";
 
-import { FC } from "react";
-import { Button } from "../../../components/ui/button";
+import type { FC } from "react";
 import { Input } from "../../../components/ui/input";
 import { useSearchParams } from "next/navigation";
-import { ShowMessage } from "../../../components/ShowMessage";
+import { ShowMessage } from "@/components/ShowMessage";
 import { useFormState } from "react-dom";
 import { login, register } from "@/actions/userAuth";
 import { UserCredentials } from "@/types";
 import { cn } from "@/lib/utils";
+import { SubmitBtn } from "./SubmitButton";
 
 export type FormStateType<T = UserCredentials> =
   | {
@@ -75,9 +75,10 @@ export const CredentialsForm: FC<{ type: "login" | "register" }> = ({
           <div className="text-destructive">{passwordError}</div>
         )}
       </label>
-      <Button type="submit" className="self-center">
+      <SubmitBtn type="submit" className="self-center">
         {type === "login" ? "Login" : "Register"}
-      </Button>
+      </SubmitBtn>
+
       {formState && (
         <ShowMessage
           type={formState.status === "ok" ? "success" : "error"}

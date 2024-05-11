@@ -23,7 +23,6 @@ export const Favorites = async () => {
           <CharacterCard
             key={character.id}
             character={character}
-            link=""
             isFavoritePage
             user={user}
           />
