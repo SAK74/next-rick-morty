@@ -3,18 +3,24 @@
 import { signIn } from "@/auth";
 import { FormStateType } from "@/app/auth/_components/CredentialsForm";
 import { db } from "@/lib/db";
-import { userCredentialsSchema } from "@/schemas";
+import { userCredentialsSchema, userRegistrationSchema } from "@/schemas";
 import { createUser } from "@/services/User/createUser";
 import { compare } from "bcryptjs";
 import { AuthError } from "next-auth";
 import { DEFAULT_REDIRECT_AFTER_LOGIN } from "@/routes";
 
-const parseCredentials = (data: FormData) => {
+const parseCredentials = (type: "login" | "register", data: FormData) => {
   const email = data.get("email");
   const password = data.get("password");
-  return userCredentialsSchema.safeParse({
+  const passwVeryfication = data.get("passw-veryfication");
+
+  const schema =
+    type === "login" ? userCredentialsSchema : userRegistrationSchema;
+
+  return schema.safeParse({
     email,
     password,
+    passwVeryfication,
   });
 };
 
@@ -28,7 +34,7 @@ export const login: (
   data: FormData
 ) => {
   try {
-    const parsedCredentials = parseCredentials(data);
+    const parsedCredentials = parseCredentials("login", data);
     if (!parsedCredentials.success) {
       return {
         status: "error",
@@ -76,7 +82,7 @@ export const register: (
   data: FormData
 ) => Promise<FormStateType> = async (_: FormStateType, data: FormData) => {
   try {
-    const parsedCredentials = parseCredentials(data);
+    const parsedCredentials = parseCredentials("register", data);
     if (!parsedCredentials.success) {
       return {
         status: "error",

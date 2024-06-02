@@ -13,3 +13,14 @@ export const userCredentialsSchema = z.object({
   email: z.string().min(1, "Email is required").email("Wrong e-mail format"),
   password: z.coerce.string().min(1, "Password is required"),
 });
+
+export const userRegistrationSchema = userCredentialsSchema
+  .extend({
+    passwVeryfication: z.coerce.string().min(1, "Confirm the password"),
+  })
+  .refine(
+    ({ password, passwVeryfication }) => {
+      return password === passwVeryfication;
+    },
+    { message: "Passwords don't match", path: ["passwVeryfication"] }
+  );

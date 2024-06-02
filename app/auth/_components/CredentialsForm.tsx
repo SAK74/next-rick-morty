@@ -26,7 +26,7 @@ export const CredentialsForm: FC<{ type: "login" | "register" }> = ({
   const authError = searchParams.get("error");
 
   const [formState, formAction] = useFormState<
-    FormStateType<UserCredentials>,
+    FormStateType<UserCredentials & { passwVeryfication?: string }>,
     FormData
   >(
     type === "login" ? login.bind(null, callBackURL) : register,
@@ -45,6 +45,13 @@ export const CredentialsForm: FC<{ type: "login" | "register" }> = ({
     typeof formState.message !== "string" &&
     formState.message.password
       ? formState.message.password[0]
+      : undefined;
+
+  const passwordVeryficError =
+    formState?.status === "error" &&
+    typeof formState.message !== "string" &&
+    formState.message.passwVeryfication
+      ? formState.message.passwVeryfication[0]
       : undefined;
 
   return (
@@ -66,6 +73,7 @@ export const CredentialsForm: FC<{ type: "login" | "register" }> = ({
         <Input
           name="password"
           placeholder="12345"
+          type="password"
           className={cn(
             { "border-2 border-destructive": passwordError },
             "text-gray-900"
@@ -75,6 +83,23 @@ export const CredentialsForm: FC<{ type: "login" | "register" }> = ({
           <div className="text-destructive">{passwordError}</div>
         )}
       </label>
+      {type === "register" && (
+        <label>
+          Confirm password:{" "}
+          <Input
+            name="passw-veryfication"
+            placeholder="12345"
+            type="password"
+            className={cn(
+              { "border-2 border-destructive": passwordVeryficError },
+              "text-gray-900"
+            )}
+          />
+          {passwordVeryficError && (
+            <div className="text-destructive">{passwordVeryficError}</div>
+          )}
+        </label>
+      )}
       <SubmitBtn type="submit" className="self-center">
         {type === "login" ? "Login" : "Register"}
       </SubmitBtn>
