@@ -1,7 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { FormStateType } from "@/app/auth/_components/CredentialsForm";
+import type { FormStateType, UserCredentials } from "@/types";
 import { db } from "@/lib/db";
 import { userCredentialsSchema, userRegistrationSchema } from "@/schemas";
 import { createUser } from "@/services/User/createUser";
@@ -24,15 +24,11 @@ const parseCredentials = (type: "login" | "register", data: FormData) => {
   });
 };
 
-export const login: (
+export const login: <T extends UserCredentials>(
   callbackUrl: string | null,
-  formState: FormStateType,
+  formState: FormStateType<T>,
   data: FormData
-) => Promise<FormStateType> = async (
-  callbackUrl,
-  _: FormStateType,
-  data: FormData
-) => {
+) => Promise<FormStateType<T>> = async (callbackUrl, _, data) => {
   try {
     const parsedCredentials = parseCredentials("login", data);
     if (!parsedCredentials.success) {
@@ -59,6 +55,10 @@ export const login: (
     if (!passwordMatch) {
       return { status: "error", message: "Wrong password veryfication!" };
     }
+    // if(process.env.NODE_ENV==='development'){
+    //   console.log({ callbackUrl });
+    // }
+
     await signIn("credentials", {
       ...parsedCredentials.data,
       redirect: true,
@@ -77,10 +77,12 @@ export const login: (
 
 // --------------------------------------------------------------------
 
-export const register: (
-  formState: FormStateType,
+export const register: <
+  T extends UserCredentials & { passwVeryfication?: string }
+>(
+  formState: FormStateType<T>,
   data: FormData
-) => Promise<FormStateType> = async (_: FormStateType, data: FormData) => {
+) => Promise<FormStateType<T>> = async (_, data) => {
   try {
     const parsedCredentials = parseCredentials("register", data);
     if (!parsedCredentials.success) {

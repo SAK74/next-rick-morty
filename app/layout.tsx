@@ -24,9 +24,9 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SessionProvider session={session} basePath={authConfig.basePath}>
           <NavMenu />
-        </SessionProvider>
 
-        {children}
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

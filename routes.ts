@@ -1,9 +1,11 @@
 export const publicRoutes = [
   "/",
+  "/auth/login",
+  "/auth/register",
   // "/example",
 ];
 
-export const publicRotePrefixes = ["/auth", "/detail"];
+export const publicRotePrefixes = ["/detail"];
 
 // export const authRoute = "/auth";
 

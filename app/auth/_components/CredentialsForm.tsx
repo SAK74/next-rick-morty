@@ -6,21 +6,12 @@ import { useSearchParams } from "next/navigation";
 import { ShowMessage } from "@/components/ShowMessage";
 import { useFormState } from "react-dom";
 import { login, register } from "@/actions/userAuth";
-import { UserCredentials } from "@/types";
+import type { FormStateType, UserCredentials } from "@/types";
 import { cn } from "@/lib/utils";
 import { SubmitBtn } from "./SubmitButton";
+import { AuthFormType } from "./AuthForm";
 
-export type FormStateType<T = UserCredentials> =
-  | {
-      status: "ok";
-      message: string;
-    }
-  | { status: "error"; message: string | { [k in keyof T]?: string[] } }
-  | null;
-
-export const CredentialsForm: FC<{ type: "login" | "register" }> = ({
-  type,
-}) => {
+export const CredentialsForm: FC<{ type: AuthFormType }> = ({ type }) => {
   const searchParams = useSearchParams();
   const callBackURL = searchParams.get("callbackUrl");
   const authError = searchParams.get("error");

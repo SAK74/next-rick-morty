@@ -21,7 +21,7 @@ export const SearchList: FC<Search> = async ({ searchParams }) => {
         <div className="text-rose-800">{data}</div>
       ) : (
         <>
-          <div>{data.info.count} results was founded</div>
+          <div>{data.info.count} results where found</div>
           {data.info.pages > 1 && <ListPagination info={data.info} />}
           <div className="flex flex-wrap gap-4 justify-around">
             {data.results.map((character) => (

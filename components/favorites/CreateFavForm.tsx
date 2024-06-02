@@ -30,6 +30,7 @@ import defaultIcon from "@/assets/unknown.png";
 import { useRouter } from "next/navigation";
 import { editCustom } from "@/actions/editCustom";
 import { Disc3Icon } from "lucide-react";
+import { GoBackButton } from "../GoBackButton";
 
 export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
   hero,
@@ -66,9 +67,6 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
     router.refresh();
   };
 
-  const onCancel = () => {
-    router.back();
-  };
   return (
     <Form {...form}>
       <form
@@ -237,11 +235,7 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
               <Disc3Icon className="animate-spin" />
             )}
           </Button>
-          {hero && (
-            <Button variant={"destructive"} onClick={onCancel} type="button">
-              Cancel
-            </Button>
-          )}
+          <GoBackButton variant={"destructive"}>Cancel</GoBackButton>
         </div>
       </form>
     </Form>

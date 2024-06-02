@@ -43,25 +43,6 @@ export const authConfig = {
 
     //   return true;
     // },
-    session(params) {
-      // console.log("\x1b[33m In Session callback \x1b[0m");
-      // console.log(params);
-
-      const { newSession, session, token, user, trigger } = params;
-
-      // console.log("-----------------------");
-
-      return { ...session, user: { ...session.user, id: token.sub } };
-    },
-    // jwt(params) {
-    //   console.log("\x1b[33m In JWT callback \x1b[0m");
-    //   console.log(params);
-
-    //   const {} = params;
-    //   console.log("-----------------------");
-
-    //   return params.token;
-    // },
   },
   providers: [
     github({
@@ -86,9 +67,6 @@ export const authConfig = {
         }
 
         const { email } = credentials;
-        // if (!email || !password) {
-        //   throw new CredentialsSignin();
-        // }
 
         const isUser = await db.user.findUnique({
           where: { email: email as string },
@@ -98,14 +76,6 @@ export const authConfig = {
         if (!isUser) {
           throw new CredentialsSignin();
         }
-        // const matchPassword = await compare(
-        //   password as string,
-        //   isUser.password
-        // );
-        // if (!matchPassword) {
-        //   console.log("Wrong password");
-        //   throw new CredentialsSignin();
-        // }
         return isUser;
       },
     }),

@@ -24,3 +24,20 @@ export const userRegistrationSchema = userCredentialsSchema
     },
     { message: "Passwords don't match", path: ["passwVeryfication"] }
   );
+
+export const oauthUserSetupSchema = z.object({
+  name: z.string().optional(),
+});
+
+export const userSetupSchema = oauthUserSetupSchema
+  .extend({
+    email: z.union([z.literal(""), z.string().email()]).optional(),
+    password: z.string().optional(),
+    newPassw: z.string().optional(),
+  })
+  .refine(
+    ({ name, email, password, newPassw }) => {
+      return !((name || email || newPassw) && !password);
+    },
+    { message: "Confirm your current password!", path: ["password"] }
+  );

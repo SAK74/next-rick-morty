@@ -14,12 +14,14 @@ import {
   UserRoundPlusIcon,
   UserRoundXIcon,
   InfoIcon,
+  SettingsIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { deleteUser } from "@/actions/deleteUser";
 import { REDIRECT_AFTER_LOGOUT } from "@/routes";
 import { MyTooltip } from "./Tooltip";
 import { DeleteAccountDialog } from "./DeleteAccountDialog";
+import { redirect } from "next/navigation";
 
 export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   const onLogout = async () => {
@@ -54,6 +56,12 @@ export const UserProfile: FC<{ user?: User }> = ({ user }) => {
           {user ? (
             <>
               <DropdownMenuLabel>{user.name || user.email}</DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <Link href={"auth/setup"}>
+                  <SettingsIcon />
+                  <span>Settings</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={onLogout}>
                 <LogOutIcon />
                 <span>Logout</span>

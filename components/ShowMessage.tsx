@@ -4,11 +4,11 @@ import { FC } from "react";
 
 export const ShowMessage: FC<{
   type: "success" | "error";
-  message?: string;
+  message: string;
 }> = ({ type, message = "" }) => (
   <div
     className={cn("flex gap-4", {
-      "text-emerald-700": type === "success",
+      "text-emerald-800": type === "success",
       "text-destructive": type === "error",
     })}
   >
