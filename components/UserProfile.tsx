@@ -14,6 +14,7 @@ import {
   UserRoundPlusIcon,
   UserRoundXIcon,
   InfoIcon,
+  SettingsIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { deleteUser } from "@/actions/deleteUser";
@@ -54,6 +55,12 @@ export const UserProfile: FC<{ user?: User }> = ({ user }) => {
           {user ? (
             <>
               <DropdownMenuLabel>{user.name || user.email}</DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <Link href={"auth/setup"}>
+                  <SettingsIcon />
+                  <span>Settings</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={onLogout}>
                 <LogOutIcon />
                 <span>Logout</span>

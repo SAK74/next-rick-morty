@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { customFavoriteSchema, userCredentialsSchema } from "./schemas";
+import {
+  customFavoriteSchema,
+  userCredentialsSchema,
+  userSetupSchema,
+} from "./schemas";
 
 export type Character = {
   id: number; //	The id of the character.
@@ -62,3 +66,13 @@ export type CustomFav = Required<z.infer<typeof customFavoriteSchema>> & {
 };
 
 export type UserCredentials = z.infer<typeof userCredentialsSchema>;
+
+export type FormStateType<T> =
+  | {
+      status: "ok";
+      message: string;
+    }
+  | { status: "error"; message: string | { [k in keyof T]?: string[] } }
+  | null;
+
+export type UserSetupForm = z.infer<typeof userSetupSchema>;

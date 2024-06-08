@@ -7,7 +7,7 @@ export const Favorites = async () => {
   const user = (await auth())?.user?.email;
   const favorites = user && (await getAllFavorites(user));
   if (!favorites) {
-    return "Some thing went wrong in db";
+    return "Something went wrong in db";
   }
   if (!favorites.length) {
     return null;

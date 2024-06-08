@@ -9,15 +9,17 @@ export async function GET(
     params: { user, type },
   }: { params: { user: string; type: "favorites" | "custom" } }
 ) {
-  console.log("RequestURL: ", request.url);
-  console.log("Params: ", { user, type });
-  console.log("DB  fetched");
-  console.log("----------------------");
+  if (process.env.NODE_ENV === "development") {
+    console.log("RequestURL: ", request.url);
+    console.log("Params: ", { user, type });
+    console.log("DB  fetched");
+    console.log("----------------------");
+  }
+
   try {
     const result = await (type === "favorites"
       ? db.favorite.findMany({ where: { User: { some: { email: user } } } })
       : db.custom.findMany({ where: { userEmail: user } }));
-    // const result = params;
     return NextResponse.json({ message: "OK", result }, { status: 200 });
   } catch (error) {
     console.log("Fetch db err: ", error);

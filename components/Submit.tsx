@@ -10,9 +10,6 @@ export const SubmitBtn: FC<PropsWithChildren> = ({ children }) => {
   return pending ? (
     <Disc3Icon className="animate-spin inline" />
   ) : (
-    <Button asChild>{children}</Button>
+    <Button>{children}</Button>
   );
-  // (
-  //   <input type="submit" className="cursor-pointer" />
-  // );
 };
