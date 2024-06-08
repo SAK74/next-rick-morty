@@ -21,7 +21,6 @@ import { deleteUser } from "@/actions/deleteUser";
 import { REDIRECT_AFTER_LOGOUT } from "@/routes";
 import { MyTooltip } from "./Tooltip";
 import { DeleteAccountDialog } from "./DeleteAccountDialog";
-import { redirect } from "next/navigation";
 
 export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   const onLogout = async () => {
