@@ -42,6 +42,10 @@ export const userSetupAction: <
 
   const { password: currentPassw, ...parsedValues } = parsedValuesWithPassword;
 
+  if (!parsedValues.name && !parsedValues.email && !parsedValues.newPassw) {
+    return getError("Nothing to change!");
+  }
+
   const existingUser = await db.user.findUnique({
     where: { email: session.user.email },
     select: { name: true, password: true, id: true },
@@ -49,9 +53,7 @@ export const userSetupAction: <
   if (!existingUser) {
     return getError("User not exist");
   }
-  if (!parsedValues.name && !parsedValues.email && !parsedValues.newPassw) {
-    return getError("Nothing to change!");
-  }
+
   if (session.user.isOauth) {
     if (existingUser.name === parsedValues.name) {
       return getError("The new name is the same...");

@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { CredentialsForm } from "./CredentialsForm";
 import Link from "next/link";
 import type { FC } from "react";
-import { SetupForm } from "./SetupForm";
+import { SetupForm } from "./SetupForm1";
 import { GoBackButton } from "@/components/GoBackButton";
 
 export type AuthFormType = "login" | "register";
