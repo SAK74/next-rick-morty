@@ -13,10 +13,6 @@ import { useEffect, useRef } from "react";
 export const SetupForm = () => {
   const { data, status, update: sessionUpdate } = useSession();
 
-  if (!data) {
-    return null;
-  }
-  const { user } = data;
   const [formState, action] = useFormState<
     FormStateType<UserCredentials & { name: string; newPassw?: string }>,
     FormData
@@ -29,7 +25,7 @@ export const SetupForm = () => {
       sessionUpdate();
       formRef.current?.reset();
     }
-  }, [formState]);
+  }, [formState]); //eslint-disable-line
 
   const emailError =
     formState?.status === "error" &&
@@ -45,6 +41,10 @@ export const SetupForm = () => {
       ? formState.message.password[0]
       : undefined;
 
+  if (!data) {
+    return null;
+  }
+  const { user } = data;
   return (
     <form action={action} className="flex flex-col gap-2" ref={formRef}>
       <label>
