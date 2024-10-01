@@ -30,6 +30,7 @@ import defaultIcon from "@/assets/unknown.png";
 import { useRouter } from "next/navigation";
 import { editCustom } from "@/actions/editCustom";
 import { Disc3Icon } from "lucide-react";
+import { ImCross } from "react-icons/im";
 import { GoBackButton } from "../GoBackButton";
 
 export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
@@ -61,7 +62,7 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
     if (!hero) {
       await addCustomToFav(user, { ...data, image: dataUrl });
     } else {
-      await editCustom(user, hero.id, data);
+      await editCustom(user, hero.id, { ...data, image: dataUrl });
     }
     router.replace("/favorites");
     router.refresh();
@@ -116,6 +117,7 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
                   <>
                     <Input
                       {...field}
+                      className="basis-64 px-2"
                       type="file"
                       accept="image/*"
                       onChange={(ev) => {
@@ -139,6 +141,16 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
                         }
                       }}
                     />
+                    {dataUrl && (
+                      <ImCross
+                        className="fill-destructive/80 hover:scale-110 cursor-pointer self-center"
+                        title="Remove image"
+                        onClick={() => {
+                          setDataUrl("");
+                          form.setValue("image", "");
+                        }}
+                      />
+                    )}
                     <Image
                       src={dataUrl || defaultIcon}
                       alt="uploading image"
