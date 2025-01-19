@@ -59,13 +59,19 @@ export const CreateFavForm: FC<{ hero?: CustomFav; user: string }> = ({
   const [dataUrl, setDataUrl] = useState(() => hero?.image || "");
 
   const onValid: SubmitHandler<CustomFav> = async (data) => {
-    if (!hero) {
-      await addCustomToFav(user, { ...data, image: dataUrl });
-    } else {
-      await editCustom(user, hero.id, { ...data, image: dataUrl });
+    try {
+      if (!hero) {
+        await addCustomToFav(user, { ...data, image: dataUrl });
+      } else {
+        await editCustom(user, hero.id, { ...data, image: dataUrl });
+      }
+
+      //  router.replace("/favorites");
+      // router.refresh();
+      router.back();
+    } catch (err) {
+      // TODO show error
     }
-    router.replace("/favorites");
-    router.refresh();
   };
 
   return (

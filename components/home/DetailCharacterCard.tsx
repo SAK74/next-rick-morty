@@ -15,7 +15,7 @@ export const DetailCharacterCard: FC<{
     character;
   const created = formatDate(character.created);
   return (
-    <Card className="w-[340px] lg:w-[400px] relative">
+    <Card className="w-[340px] lg:w-[400px] relative card-shadow">
       <Link
         href={href}
         className="absolute top-3 left-3 p-1 rounded-sm hover:border hover:bg-gray-100 active:scale-90"
@@ -29,7 +29,7 @@ export const DetailCharacterCard: FC<{
           alt={name + "image"}
           width={80}
           height={80}
-          className="rounded-xl"
+          className="rounded-xl card-shadow"
         />
       </CardHeader>
       <CardContent>
