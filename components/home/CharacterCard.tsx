@@ -62,17 +62,17 @@ export const CharacterCard: FC<{
   return (
     <div
       key={character.id}
-      className="flex w-[450px] md:max-lg:w-[350px] h-[250px]"
+      className="flex w-[450px] md:max-lg:w-[350px] h-[250px] rounded-lg overflow-hidden card-shadow"
     >
       <Link
         href={linkHref ?? ""}
-        className="w-[200px] relative h-full md:max-lg:hidden"
+        className="w-[200px] relative h-full md:max-lg:hidden overflow-hidden active:scale-105"
       >
         <Image
           src={character.image || unknownHeroIcon}
           alt={character.name + "image"}
           fill
-          className="rounded-l-lg"
+          className=" hover:scale-110 transition-transform"
         />
       </Link>
 
