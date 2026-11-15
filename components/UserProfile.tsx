@@ -25,8 +25,10 @@ import { DeleteAccountDialog } from "./DeleteAccountDialog";
 export const UserProfile: FC<{ user?: User }> = ({ user }) => {
   const onLogout = async () => {
     await signOut({
-      redirect: Boolean(REDIRECT_AFTER_LOGOUT),
-      callbackUrl: REDIRECT_AFTER_LOGOUT,
+      ...(!REDIRECT_AFTER_LOGOUT && { redirect: false }),
+      redirectTo: REDIRECT_AFTER_LOGOUT,
+      // redirect: Boolean(REDIRECT_AFTER_LOGOUT),
+      // callbackUrl: REDIRECT_AFTER_LOGOUT,
     });
   };
   const onDelete = async () => {

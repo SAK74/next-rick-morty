@@ -12,8 +12,11 @@ export const Socials = () => {
   const callBack = searchParams.get("callbackUrl");
   const onClick = (type: "github" | "google") => {
     signIn(type, {
-      redirect: Boolean(callBack),
-      callbackUrl: callBack || DEFAULT_REDIRECT_AFTER_LOGIN,
+      // ...(!callBack && { redirect: false }),
+
+      redirectTo: callBack || DEFAULT_REDIRECT_AFTER_LOGIN,
+      // redirect: Boolean(callBack),
+      // callbackUrl: callBack || DEFAULT_REDIRECT_AFTER_LOGIN,
     });
   };
   return (
