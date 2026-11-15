@@ -12,7 +12,7 @@ export const Socials = () => {
   const callBack = searchParams.get("callbackUrl");
   const onClick = (type: "github" | "google") => {
     signIn(type, {
-      ...(!callBack && { redirect: false }),
+      // ...(!callBack && { redirect: false }),
 
       redirectTo: callBack || DEFAULT_REDIRECT_AFTER_LOGIN,
       // redirect: Boolean(callBack),
